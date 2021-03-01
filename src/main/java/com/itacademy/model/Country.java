@@ -2,11 +2,15 @@ package com.itacademy.model;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"name"})
+@ToString(of = {"name"})
 @Table(name = "countries")
 @Entity
 public class Country {

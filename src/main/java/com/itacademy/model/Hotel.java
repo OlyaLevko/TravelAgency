@@ -1,13 +1,18 @@
 package com.itacademy.model;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"name", "country"})
+@ToString(of = {"name", "country"})
 @Table(name = "hotels")
 @Entity
 public class Hotel{
@@ -21,6 +26,11 @@ public class Hotel{
     @NotBlank
     @Column(name = "name")
     private String name;
+
+    @Column(name = "stars")
+    @Min(value = 1)
+    @Max(value = 5)
+    private Integer stars;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
