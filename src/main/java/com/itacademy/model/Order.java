@@ -1,6 +1,6 @@
 package com.itacademy.model;
 
-import jakarta.validation.constraints.Pattern;
+
 import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;

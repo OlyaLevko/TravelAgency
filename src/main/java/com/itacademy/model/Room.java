@@ -2,12 +2,14 @@ package com.itacademy.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
+import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"number", "hotel"})
+@ToString(of = {"number", "hotel"})
 @Table(name = "rooms")
 @Entity
 public class Room {
@@ -21,6 +23,10 @@ public class Room {
     @NotBlank
     @Column(name = "number")
     private Integer number;
+
+    @Column(name = "type")
+    @Enumerated(value = EnumType.STRING)
+    private Type type;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id")

@@ -3,12 +3,15 @@ package com.itacademy.model;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"lastName", "firstName", "email", "password", "role"})
+@ToString(of = {"lastName", "firstName", "email", "password", "role"})
 @Table(name = "users")
 @Entity
 public class User {
@@ -28,7 +31,7 @@ public class User {
             message = "Must start with a capital letter.")
     @NotNull
     @Column(name = "firstname")
-    private String firstname;
+    private String firstName;
 
     @Email(message = "Must be a real email.")
     @NotNull

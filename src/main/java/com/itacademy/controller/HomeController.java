@@ -19,7 +19,7 @@ public class HomeController {
     @GetMapping
     public String hello(){
         User user = new User();
-        user.setFirstname("Vasyl");
+        user.setFirstName("Vasyl");
         user.setLastName("Prokopiv");
         userRepository.save(user);
         return "index";
