@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Table(name = "users")
@@ -39,7 +40,10 @@ public class User {
     private String password;
 
 
-//    @Enumerated(value = EnumType.STRING)
-//    @Column(name = "role")
-//    private Role role;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 }
