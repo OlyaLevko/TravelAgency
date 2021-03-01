@@ -3,6 +3,7 @@ package com.itacademy.repository;
 import com.itacademy.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     SessionFactory sessionFactory;
 
+    @Autowired
     public UserRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -20,7 +22,10 @@ public class UserRepositoryImpl implements UserRepository{
     @Transactional
     public User save(User user) {
         Session session = sessionFactory.openSession();
-        session.save(user);
+        session.beginTransaction();
+        session.saveOrUpdate(user);
+        session.flush();
+        session.getTransaction().commit();
         session.close();
         return user;
     }
