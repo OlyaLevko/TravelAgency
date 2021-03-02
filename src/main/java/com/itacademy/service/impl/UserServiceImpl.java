@@ -1,13 +1,11 @@
 package com.itacademy.service.impl;
 
+import com.itacademy.exception.NotSuchElementException;
 import com.itacademy.model.User;
 import com.itacademy.repository.UserRepository;
 import com.itacademy.service.UserService;
-import org.graalvm.compiler.nodes.calc.CompareNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @Service
@@ -39,7 +37,7 @@ public class UserServiceImpl implements UserService {
     public User getById(Long id) {
         User user =  userRepository.getById(id);
         if(user == null)
-            throw new IllegalArgumentException("User with id " + id +" doesn't exist.");
+            throw new NotSuchElementException("User with id " + id +" doesn't exist.");
         else
             return user;
     }

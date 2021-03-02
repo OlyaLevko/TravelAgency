@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/{id}")//тестовий
     public String deleteUser(@PathVariable Long id){
-        userService.getAll().forEach(System.out::println);
+        userService.delete(id);
         return "index";
     }
 }
