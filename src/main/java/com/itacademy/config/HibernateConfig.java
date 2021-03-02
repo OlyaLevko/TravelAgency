@@ -58,7 +58,7 @@ public class HibernateConfig {
         properties.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
         properties.put("hibernate.show-sql", env.getRequiredProperty("hibernate.show-sql"));
         properties.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("hibernate.hbm2ddl.auto"));
-       // properties.put("hibernate.generate-ddl", env.getRequiredProperty("hibernate.generate-ddl"));
+        properties.put("hibernate.generate-ddl", env.getRequiredProperty("hibernate.generate-ddl"));
         properties.put("hibernate.hbm2ddl.import_files", env.getRequiredProperty("hibernate.hbm2ddl.import_files"));
         properties.put("hibernate.format_sql", env.getRequiredProperty("hibernate.format_sql"));
         return properties;

@@ -1,11 +1,12 @@
 package com.itacademy.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Getter
@@ -38,7 +39,7 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
+    @Pattern(regexp = ".{4,}",
             message = "Must contain at least 8 symbols, one capital letter, one digit, one special character.")
     @Column(name = "password", nullable = false)
     private String password;
@@ -46,7 +47,7 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role_name")
-    private Role roleName;
+    private Role roleName = Role.USER;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
