@@ -3,7 +3,6 @@ package com.itacademy.service.impl;
 import com.itacademy.model.User;
 import com.itacademy.repository.UserRepository;
 import com.itacademy.service.UserService;
-import org.graalvm.compiler.nodes.calc.CompareNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
