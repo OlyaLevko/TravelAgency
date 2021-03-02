@@ -1,1 +1,1 @@
-INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (20, 'Nick', 'Green', 'nick@mail.com', '1111', 'manager');
+INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (20, 'Nick', 'Green', 'nick@mail.com', '1111', 'MANAGER');
