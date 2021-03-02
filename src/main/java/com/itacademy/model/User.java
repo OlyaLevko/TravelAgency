@@ -10,8 +10,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = {"lastName", "firstName", "email", "password", "role"})
-@ToString(of = {"lastName", "firstName", "email", "password", "role"})
+@EqualsAndHashCode(of = {"lastName", "firstName", "email", "password", "roleName"})
+@ToString(of = {"lastName", "firstName", "email", "password", "roleName"})
 @Table(name = "users")
 @Entity
 public class User {
@@ -35,17 +35,18 @@ public class User {
 
     @Email(message = "Must be a real email.")
     @NotNull
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
             message = "Must contain at least 8 symbols, one capital letter, one digit, one special character.")
+    @Column(name = "password", nullable = false)
     private String password;
 
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "role")
-    private Role role;
+    @Column(name = "role_name")
+    private Role roleName;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;

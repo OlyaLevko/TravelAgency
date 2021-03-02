@@ -5,7 +5,6 @@ import com.itacademy.model.User;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository {
+public interface UserRepository extends CrudRepository<User, Long>{
 
-    User save(User user);
 }
