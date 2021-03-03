@@ -4,6 +4,7 @@ import com.itacademy.model.User;
 import com.itacademy.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -23,9 +24,15 @@ public class UserController {
      User user = new User();
      user.setLastName("Brown");
      user.setFirstName("Dan");
-     user.setEmail("den@email.com");
+     user.setEmail("dan@email.com");
      user.setPassword("2222");
-     userService.create(user);
+     userService.update(user);
      return "index";
  }
+
+    @GetMapping("/{id}")//тестовий
+    public String deleteUser(@PathVariable Long id){
+        userService.delete(id);
+        return "index";
+    }
 }
