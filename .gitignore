@@ -2,5 +2,6 @@
 /target/
 /*.iml
 
+
 src/main/resources/hibernate.properties
 
