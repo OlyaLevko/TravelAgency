@@ -1,6 +1,8 @@
 package com.itacademy.service.impl;
 
+import com.itacademy.model.Country;
 import com.itacademy.model.Hotel;
+import com.itacademy.repository.CountryRepository;
 import com.itacademy.repository.HotelRepository;
 import com.itacademy.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +16,18 @@ import java.util.List;
 public class HotelServiceImpl implements HotelService {
 
     private HotelRepository hotelRepository;
+    private CountryRepository countryRepository;
 
     @Autowired
-    public HotelServiceImpl(HotelRepository hotelRepository) {
+    public HotelServiceImpl(HotelRepository hotelRepository,CountryRepository countryRepository) {
         this.hotelRepository = hotelRepository;
+        this.countryRepository=countryRepository;
     }
 
     @Override
     public Hotel create(Hotel hotel) {
+        Country countryFromDb=countryRepository.getByCountryName(hotel.getCountry().getName());
+        hotel.setCountry(countryFromDb);
         return hotelRepository.save(hotel);
     }
 
