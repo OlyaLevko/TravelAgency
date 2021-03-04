@@ -1,18 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Василь
-  Date: 02.03.2021
-  Time: 13:21
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>AddHotel</title>
+    <meta charset="UTF-8">
+    <title>Create hotel</title>
 </head>
 <body>
 
-<h2>New Hotel registration</h2>
+<h2>New Hotel registration </h2>
 <form action="/hotels/add" method="post">
     <table>
         <tr>
@@ -40,14 +34,6 @@
                 <input type="text" id="stars" name="stars"/>
             </td>
         </tr>
-        <tr>
-            <td>
-                <label for="rooms">Number of rooms:</label>
-            </td>
-            <td>
-                <input type="text" id="rooms" name="rooms"/>
-            </td>
-        </tr>
 
         <tr>
             <td colspan="2">
@@ -56,6 +42,7 @@
             </td>
         </tr>
     </table>
+
 </form>
 </body>
 </html>

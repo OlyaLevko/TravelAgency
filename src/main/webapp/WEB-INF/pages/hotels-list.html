@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>All hotels</title>
+</head>
+<body>
+<div>
+    <h2>All hotels</h2>
+</div>
+
+<div class="container">
+    <table class="table table-striped" border="2">
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Country</th>
+            <th>Stars</th>
+        </tr>
+        <tr  th:each="hotel, iStat: ${hotels}" >
+            <td th:text="${iStat.index + 1}" />
+            <td th:text="${hotel.name}"  />
+            <td th:text="${hotel.country.name}"/>
+            <td th:text="${hotel.stars}"  />
+<!--            <td th:each="room,iStat: ${rooms}"/>-->
+            <td >
+                <a th:href="@{|/hotel/${hotel.id}|}" > Go to rooms list</a>
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+</body>
+</html>
