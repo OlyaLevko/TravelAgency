@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Create room</title>
+</head>
+<body>
+
+<h2>New room creation in hotel " <span th:text="${hotel.name}"/> " </h2>
+
+<form th:action="@{|/room/create/${hotel.id}|}" method="post">
+    <table>
+        <tr>
+            <td>
+                <label for="number">Number:</label>
+            </td>
+            <td>
+                <input type="text" id="number" name="number"/>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <label for="type">Type of room:</label>
+            </td>
+            <td>
+                <select class="form-control" name="type" id="type">
+                    <option th:each="type : ${types}" th:value="${type}" th:text="${type}"/>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="price">Price:</label>
+            </td>
+            <td>
+                <input type="text" id="price" name="price"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Register" />
+                <input type="reset" value="Clear" />
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
