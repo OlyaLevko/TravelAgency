@@ -10,3 +10,5 @@ INSERT INTO countries (id,name) VALUES (102,'Ukraine');
 INSERT INTO hotels (id,name,stars,country_id) VALUES (100,'SpaResort', 3, 100);
 INSERT INTO hotels (id,name,stars,country_id) VALUES (101,'GoldDragon', 2, 101);
 INSERT INTO hotels (id,name,stars,country_id) VALUES (102,'Podillya', 5, 102);
+INSERT INTO hotels (id,name,stars,country_id) VALUES (103,'Lviv', 4, 102);
+INSERT INTO hotels (id,name,stars,country_id) VALUES (104,'Bucovel-resort', 5, 102);

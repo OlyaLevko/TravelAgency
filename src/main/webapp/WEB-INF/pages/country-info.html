@@ -7,10 +7,24 @@
 <body>
     <h2>Country info</h2>
     <div>
-
-        <h2 th:text="${country.getId()}"> </h2> <br/>
         <h2 th:text="${country.getName()}"></h2> <br/>
-        <h2></h2>
+        <table border="1">
+            <tr>
+                <th>No.</th>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+            <tr th:each="hotel, iStat: ${hotels}">
+                <td th:text="${iStat.index + 1}" />
+                <td th:text="${hotel.id}"  />
+                <td th:text="${hotel.name}"/>
+                <td th:text="${hotel.stars}"/>
+                <td >
+                    <a th:href="@{/}" > Go to rooms list</a>
+                </td>
+
+            </tr>
+        </table>
 
     </div>
 </body>

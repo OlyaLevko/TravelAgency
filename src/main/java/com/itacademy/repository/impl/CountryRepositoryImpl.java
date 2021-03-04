@@ -1,6 +1,7 @@
 package com.itacademy.repository.impl;
 
 import com.itacademy.model.Country;
+import com.itacademy.model.Hotel;
 import com.itacademy.repository.CountryRepository;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -78,6 +79,19 @@ public class CountryRepositoryImpl implements CountryRepository {
         return utilityClass.getAllOperationWithinPersistentContext(
                 session -> {
                     Query query=session.createQuery("select country from Country country");
+                    return query.list();
+                }
+        );
+    }
+
+    @Override
+    public List<Hotel> getAllHotelsInCountry(String countryName) {
+        return utilityClass.getAllOperationWithinPersistentContext(
+                session -> {
+                    Query query=session.createQuery(
+                            "select hotel from Hotel as hotel " +
+                                    "join hotel.country c where c.name= :name");
+                    query.setParameter("name", countryName);
                     return query.list();
                 }
         );

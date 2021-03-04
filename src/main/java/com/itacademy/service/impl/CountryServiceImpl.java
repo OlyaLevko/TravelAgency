@@ -1,6 +1,7 @@
 package com.itacademy.service.impl;
 
 import com.itacademy.model.Country;
+import com.itacademy.model.Hotel;
 import com.itacademy.repository.CountryRepository;
 import com.itacademy.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,11 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public List<Country> getAll() {
         return countryRepository.getAll();
+    }
+
+    @Override
+    public List<Hotel> getAllHotelsInCountry(String countryName) {
+//        Country countryFromDb=countryRepository.getByCountryName(countryName);
+        return countryRepository.getAllHotelsInCountry(countryName);
     }
 }
