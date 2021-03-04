@@ -1,5 +1,6 @@
 package com.itacademy.config;
 
+import com.itacademy.exception.GlobalExceptionHandler;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -79,9 +80,8 @@ public SpringResourceTemplateResolver templateResolver(){
         viewResolver.setOrder(1);
         return viewResolver;
     }
-
-    @Override
-    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-
+    @Bean
+    GlobalExceptionHandler customExceptionResolver () {
+        return new GlobalExceptionHandler();
     }
 }
