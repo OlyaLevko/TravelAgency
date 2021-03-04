@@ -27,7 +27,9 @@ public class HotelDto {
         country.setName(dto.country);
         List<Room> rooms=new ArrayList<>();
         for (int i=0; i<dto.rooms;i++){
-            rooms.add(new Room());
+            Room room=new Room();
+            room.setNumber(i);
+            rooms.add(room);
         }
 
         hotel.setName(dto.name);

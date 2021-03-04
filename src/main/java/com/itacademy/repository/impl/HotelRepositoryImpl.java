@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class HotelRepositoryImpl implements HotelRepository {
 
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public HotelRepositoryImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -30,12 +30,16 @@ public class HotelRepositoryImpl implements HotelRepository {
         try{
             session=sessionFactory.openSession();
             hotel=session.get(Hotel.class,id);
+            if(hotel==null){
+                log.info("===== hotel with id: "+id+" not found=====");
+            }
         }catch (Exception e){
+            log.info(e.getMessage());
             throw new RepositoryException("getById method failed at getById() ");
         }finally {
             session.close();
         }
-        return hotel    ;
+        return hotel;
     }
 
 
@@ -51,6 +55,7 @@ public class HotelRepositoryImpl implements HotelRepository {
         }catch (Exception e){
             session.getTransaction().rollback();
             log.info("=====save hotel method failed====");
+            log.info(e.getMessage());
             throw new RepositoryException("persistent layer failed at save() method");
         }finally {
             if(session != null) {
@@ -68,13 +73,16 @@ public class HotelRepositoryImpl implements HotelRepository {
         try{
             session = sessionFactory.openSession();
             hotel=getById(id);
+
             session.getTransaction().begin();
             session.delete(hotel);
             session.getTransaction().commit();
-            log.info("=====save hotel method end successfully=====");
+            log.info("===== delete() hotel method end successfully=====");
+
         }catch (Exception e){
             session.getTransaction().rollback();
-            log.info("=====save hotel method failed====");
+            log.info("===== delete() hotel method failed====");
+            log.info(e.getMessage());
             throw new RepositoryException("persistent layer failed at delete() method");
         }finally {
             if(session != null) {
@@ -90,17 +98,20 @@ public class HotelRepositoryImpl implements HotelRepository {
         try{
             session = sessionFactory.openSession();
             hotelFromDb=getById(hotel.getId());
-            session.getTransaction().begin();
+            if(hotelFromDb!=null){
+                session.getTransaction().begin();
+                hotelFromDb.setName(hotel.getName());
+                hotelFromDb.setStars(hotel.getStars());
+                hotelFromDb.setRooms(hotel.getRooms());
 
-            hotelFromDb.setName(hotel.getName());
-            hotelFromDb.setStars(hotel.getStars());
-            hotelFromDb.setRooms(hotel.getRooms());
+                session.getTransaction().commit();
+                log.info("=====update hotelFromDb method end successfully=====");
+            }
 
-            session.getTransaction().commit();
-            log.info("=====update hotelFromDb method end successfully=====");
         }catch (Exception e){
             session.getTransaction().rollback();
             log.info("=====update hotelFromDb method failed====");
+            log.info(e.getMessage());
             throw new RepositoryException("persistent layer failed at delete() method");
         }finally {
             if(session != null) {
@@ -118,9 +129,12 @@ public class HotelRepositoryImpl implements HotelRepository {
             session = sessionFactory.openSession();
             Query query=session.createQuery("select hotel from Hotel hotel");
             hotels=query.list();
+            if(hotels==null){
+                log.info("===hotels == null");
+            }
 
         }catch (Exception e){
-
+            log.info(e.getMessage());
             throw new RepositoryException("persistent layer failed at getAll() method");
         }finally {
             if(session != null) {
