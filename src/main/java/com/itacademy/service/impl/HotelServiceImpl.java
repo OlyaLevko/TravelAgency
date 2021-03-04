@@ -50,4 +50,6 @@ public class HotelServiceImpl implements HotelService {
     public List<Hotel> getAll() {
         return hotelRepository.getAll();
     }
+
+
 }
