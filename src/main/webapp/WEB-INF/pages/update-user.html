@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Update user</title>
+</head>
+<body>
+<h1 th:text ="${'Update user ' + user.firstName + ' ' + user.lastName}"></h1>
+<form  th:action="@{|/users/${user.getId()}/update|}" th:object="${user}" method="post">
+    <p>
+        <label class="col-sm-2 control-label" for="first-name">First name:</label>
+        <input type="text" th:field="*{firstName}" id="first-name"/>
+    </p>
+    <p>
+        <span class="ui-state-error-text" th:if="${#fields.hasErrors('firstName')}" th:text="${#fields.errors('firstName')}" style="color: red" ></span>
+    </p>
+    <p>
+        <label for="last-name">Last name:</label>
+        <input type="text"  th:field="*{lastName}" id="last-name"/>
+    </p>
+    <p>
+        <span class="ui-state-error-text" th:if="${#fields.hasErrors('lastName')}" th:text="${#fields.errors('lastName')}" style="color: red" ></span>
+    </p>
+    <p>
+
+        <label for="email">E-mail:</label>
+        <input type="email" th:field="*{email}" id="email"/>
+    </p>
+    <p>
+        <span class="ui-state-error-text" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email')}" style="color: red"></span>
+
+    </p>
+    <p>
+        <label for="password">Password:</label>
+        <input type="password" th:field="*{password}" id="password"/>
+    </p>
+    <p>
+        <span class="ui-state-error-text" th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password')}" style="color: red" ></span>
+
+    </p>
+    <p>
+        <label for="role">Role:</label>
+        <select th:field="*{roleName}" id = "role">
+            <option th:each="role : ${roles}" th:value="${role}" th:text="${role}">
+            </option>
+        </select>
+    </p>
+    <p>
+        <input type="submit" value="Register"/>
+        <input type="reset" value="Clear"/>
+    </p>
+</form>
+</body>
+</html>

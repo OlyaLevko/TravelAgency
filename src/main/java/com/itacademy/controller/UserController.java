@@ -1,13 +1,14 @@
 package com.itacademy.controller;
 
+import com.itacademy.model.Role;
 import com.itacademy.model.User;
 import com.itacademy.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 
 @Controller
@@ -19,20 +20,47 @@ public class UserController {
   this.userService = userService;
  }
 
- @GetMapping("")//тестовий
- public String addUser(){
+ @GetMapping("/add")
+ public String addUser(Model model){
      User user = new User();
-     user.setLastName("Brown");
-     user.setFirstName("Dan");
-     user.setEmail("dan@email.com");
-     user.setPassword("2222");
-     userService.update(user);
-     return "index";
+    model.addAttribute("user", user);
+     return "create-user";
  }
 
-    @GetMapping("/{id}")//тестовий
+    @PostMapping("/add")
+    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result){
+        if(result.hasErrors()){
+           return "create-user";
+        }
+        userService.create(user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/all")
+    public String allUsers(Model model){
+        model.addAttribute("users", userService.getAll());
+        return "users-list";
+    }
+
+    @GetMapping("/{id}/update")
+    public String updateUser(@PathVariable Long id, Model model){
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("user", userService.getById(id));
+        return "update-user";
+    }
+
+    @PostMapping("/{id}/update")
+    public String updateUser(@Validated @ModelAttribute("user") User user, BindingResult result, Model model){
+        if(result.hasErrors()){
+         model.addAttribute("roles", Role.values());
+            return "update-user";
+        }
+        return "redirect:/users/all";
+    }
+
+    @GetMapping("/{id}/delete")
     public String deleteUser(@PathVariable Long id){
         userService.delete(id);
-        return "index";
+        return "redirect:/users/all";
     }
 }
