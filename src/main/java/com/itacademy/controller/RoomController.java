@@ -1,7 +1,9 @@
 package com.itacademy.controller;
 
+import com.itacademy.dto.RoomDto;
 import com.itacademy.model.Hotel;
 import com.itacademy.model.Room;
+import com.itacademy.model.RoomCompositeId;
 import com.itacademy.model.Type;
 import com.itacademy.service.HotelService;
 import com.itacademy.service.RoomService;
@@ -16,11 +18,13 @@ public class RoomController {
 
     private RoomService roomService;
     private HotelService hotelService;
+    private RoomDto roomDto;
 
     @Autowired
-    public RoomController(RoomService roomService,HotelService hotelService) {
+    public RoomController(RoomService roomService,HotelService hotelService,RoomDto roomDto) {
         this.roomService = roomService;
         this.hotelService=hotelService;
+        this.roomDto=roomDto;
     }
 
     @GetMapping("/{hotel_id}/all")
@@ -37,11 +41,13 @@ public class RoomController {
         return "create-room";
     }
 
-    @PostMapping("/create/{hotel_id}")
-    public String createRoom(@PathVariable Long hotel_id,
-                             @ModelAttribute Room room, Model model){
-        Hotel hotel=hotelService.getById(hotel_id);
-        room.setHotel(hotel); //todo  how save hotel_id field to db
+    @PostMapping("/create")
+    public String createRoom( @ModelAttribute RoomDto roomDto, Model model){
+
+        Hotel hotel=hotelService.getById(roomDto.getHotel_id());
+
+        Room room =this.roomDto.convertToRoom(roomDto);
+//        room.setId(new RoomCompositeId(hotel,roomDto.getNumber()));
         roomService.create(room);
         model.addAttribute("types", Type.values());
         model.addAttribute("hotel",hotel);
@@ -49,13 +55,15 @@ public class RoomController {
     }
 
     @GetMapping("/update")
-    public String updateRoomForm(){
-        return null;
+    public String updateRoomForm(@ModelAttribute RoomCompositeId id, Model model){
+        model.addAttribute("room",roomService.getById(id));
+        return "room-update";
     }
 
     @PostMapping("/update")
-    public String updateRoom(){
-        return null;
+    public String updateRoom(@ModelAttribute Room room, Model model){
+        roomService.update(room);
+        return "redirect:/"+room.getId().getHotel().getId()+"/all"; // todo fix redirect link  ==="+room.getHotel().getId()+"
     }
 
 }
