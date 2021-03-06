@@ -20,7 +20,7 @@
                 <td th:text="${hotel.name}"/>
                 <td th:text="${hotel.stars}"/>
                 <td >
-                    <a th:href="@{/}" > Go to rooms list</a>
+                    <a th:href="@{|/room/${hotel.id}/all|}" > Go to rooms list</a>
                 </td>
 
             </tr>

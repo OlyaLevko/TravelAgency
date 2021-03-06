@@ -1,7 +1,7 @@
 package com.itacademy.model;
 
 public enum Type {
-    SINGE,
+    SINGLE,
     DOUBLE,
     TWIN,
     TRIPLE,

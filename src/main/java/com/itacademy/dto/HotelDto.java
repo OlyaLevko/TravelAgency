@@ -4,13 +4,18 @@ import com.itacademy.model.Country;
 import com.itacademy.model.Hotel;
 import com.itacademy.model.Room;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HotelDto {
 
+    @NotBlank
     private String name;
+    @NotBlank
     private String country;
+    @Size(min=1,max=5)
     private Integer stars;
 
     public HotelDto(String name, String country, Integer stars) {

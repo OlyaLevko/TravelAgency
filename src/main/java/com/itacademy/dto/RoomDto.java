@@ -4,22 +4,26 @@ import com.itacademy.model.Hotel;
 import com.itacademy.model.Room;
 import com.itacademy.model.RoomCompositeId;
 import com.itacademy.model.Type;
-import com.itacademy.repository.impl.HotelRepositoryImpl;
 import com.itacademy.service.HotelService;
-import com.itacademy.service.RoomService;
-import com.itacademy.service.impl.HotelServiceImpl;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @EqualsAndHashCode
 @ToString
 @Component
 public class RoomDto {
 
+    @NotNull
     private Long hotel_id;
+    @NotNull
     private Integer number;
+    @NotBlank
     private Type type;
+    @NotNull
     private Long price;
 
     private HotelService hotelService;
