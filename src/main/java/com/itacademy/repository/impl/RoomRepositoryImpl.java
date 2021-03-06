@@ -1,6 +1,7 @@
 package com.itacademy.repository.impl;
 
 import com.itacademy.model.Room;
+import com.itacademy.model.RoomCompositeId;
 import com.itacademy.repository.RoomRepository;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -27,7 +28,7 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(RoomCompositeId id) {
         utilityClass.deleteOperationWithinPersistentContext(
                 session -> {
                         session.delete(getById(id));
@@ -48,7 +49,7 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     @Override
-    public Room getById(Long id) {
+    public Room getById(RoomCompositeId id) {
         return utilityClass.getByIdOperationWithinPersistentContext(
                 session ->
                         session.get(Room.class,id)

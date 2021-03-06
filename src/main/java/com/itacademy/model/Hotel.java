@@ -1,6 +1,5 @@
 package com.itacademy.model;
 
-
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +16,7 @@ import java.util.List;
 @Table(name = "hotels")
 @Entity
 public class Hotel{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -37,6 +37,6 @@ public class Hotel{
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Room> rooms;
+//    @OneToMany(mappedBy = "id", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+//    private List<Room> rooms;
 }

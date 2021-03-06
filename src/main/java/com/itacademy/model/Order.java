@@ -20,7 +20,11 @@ public class Order {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "room_id")
+//    @JoinColumn(name = "room_id")
+    @JoinColumns({
+            @JoinColumn(name = "hotel_id"),
+            @JoinColumn(name="number")
+    })
     private Room room;
 
     @Column(name = "from_date")

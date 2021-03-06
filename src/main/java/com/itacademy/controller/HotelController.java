@@ -62,7 +62,6 @@ public class HotelController {
 
         Hotel hotel=new Hotel();
         hotel.setName("Trump");
-        hotel.setRooms(new ArrayList<>());
         Country country=countryService.getByCountryName("China");
         hotel.setCountry(country);
         hotel.setStars(4);
