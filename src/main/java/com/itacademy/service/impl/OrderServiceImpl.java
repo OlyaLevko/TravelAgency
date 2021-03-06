@@ -2,13 +2,22 @@ package com.itacademy.service.impl;
 
 import com.itacademy.exception.NotSuchElementException;
 import com.itacademy.model.Order;
+import com.itacademy.model.OrderStatus;
 import com.itacademy.repository.OrderRepository;
 import com.itacademy.service.OrderService;
 import com.itacademy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+@Service
 public class OrderServiceImpl implements OrderService {
     OrderRepository  orderRepository;
     UserService userService;
@@ -21,6 +30,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order create(Order order) {
+        if(order.getFromDate().isAfter(order.getToDate()))
+            throw new IllegalArgumentException("Start date must be until end date.");
+        if(!order.getRoom().isAvailable(order.getFromDate(),order.getToDate()))
+            throw new UnsupportedOperationException("Room is not available for period " +
+                    order.getFromDate() + " + " + order.getToDate());
+        order.getRoom().bookDates(order.getFromDate(), order.getToDate());
+        order.setStatus(OrderStatus.ACTIVE);
         return orderRepository.save(order);
     }
 
@@ -40,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
         if (order == null)
             throw new NotSuchElementException("There are not order with id " + id);
         else
-            return null;
+            return orderRepository.getById(id);
     }
 
     @Override
@@ -52,6 +68,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getByUserId(Long id) {
         return orderRepository.getByUserId(id);
+    }
+
+    @Override
+    @Transactional
+    public void cancel(Long id) {
+        Order order = getById(id);
+        order.setStatus(OrderStatus.CANCELED);
+        order.getRoom().removeDates(order.getFromDate(), order.getToDate());
+        update(order);
+    }
+
+    @Override
+    public void done(Long id) {
+        Order order = getById(id);
+        order.setStatus(OrderStatus.DONE);
+        order.getRoom().removeDates(order.getFromDate(), order.getToDate());
+        update(order);
     }
 
 }

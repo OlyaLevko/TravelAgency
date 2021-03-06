@@ -6,7 +6,10 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -45,4 +48,30 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Order> orders;
+
+    @Transient
+    private Set<LocalDate> bookedDates = new HashSet<>();
+
+
+    public boolean isAvailable(LocalDate fromDate, LocalDate toDate) {
+        LocalDate date;
+        for( date = fromDate; date.isBefore(toDate.plusDays(1)); date = date.plusDays(1)){
+            if(bookedDates.contains(date)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void bookDates(LocalDate fromDate, LocalDate toDate) {
+        for(LocalDate date = fromDate; date.isBefore(toDate.plusDays(1)); date = date.plusDays(1)){
+            bookedDates.add(date);
+        }
+    }
+
+    public void removeDates(LocalDate fromDate, LocalDate toDate) {
+        for(LocalDate date = fromDate; date.isBefore(toDate.plusDays(1)); date = date.plusDays(1)){
+            bookedDates.remove(date);
+        }
+    }
 }

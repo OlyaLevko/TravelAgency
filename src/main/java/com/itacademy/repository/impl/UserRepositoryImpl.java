@@ -58,7 +58,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User update(User user) {
         try (Session session = sessionFactory.openSession()) {
             session.getTransaction().begin();
-            session.saveOrUpdate(user);
+            session.update(user);
             session.getTransaction().commit();
         } catch (ConstraintViolationException e) {
             throw new UnsupportedOperationException(e.getConstraintViolations().stream().map(ConstraintViolation::getMessageTemplate).collect(Collectors.joining(", ")));

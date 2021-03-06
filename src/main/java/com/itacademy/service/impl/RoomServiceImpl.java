@@ -7,7 +7,9 @@ import com.itacademy.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -53,4 +55,13 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> getAllRoomsInHotelById(Long hotelId) {
         return roomRepository.getAllRoomsInHotelById(hotelId);
     }
+
+    @Override
+    public List<Room> getAvailableRoomsInHotelById(Long hotelId, LocalDate fromDate, LocalDate toDate) {
+        List<Room> rooms = getAllRoomsInHotelById(hotelId);
+        return rooms.stream()
+                .filter(room -> room.isAvailable(fromDate, toDate))
+                .collect(Collectors.toList());
+    }
+
 }

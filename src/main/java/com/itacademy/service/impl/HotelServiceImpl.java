@@ -52,4 +52,8 @@ public class HotelServiceImpl implements HotelService {
     }
 
 
+    @Override
+    public List<Hotel> getByCountry(Long id) {
+        return hotelRepository.getByCountry(id);
+    }
 }

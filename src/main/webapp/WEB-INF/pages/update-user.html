@@ -5,6 +5,7 @@
     <title> Update user</title>
 </head>
 <body>
+<div th:replace="header"></div>
 <h1 th:text ="${'Update user ' + user.firstName + ' ' + user.lastName}"></h1>
 <form  th:action="@{|/users/${user.getId()}/update|}" th:object="${user}" method="post">
     <p>
@@ -46,8 +47,10 @@
         </select>
     </p>
     <p>
-        <input type="submit" value="Register"/>
-        <input type="reset" value="Clear"/>
+        <input type="submit" value="Update"/>
+    </p>
+    <p>
+        <a th:href = "@{|/users/all|}">Back to users list</a>
     </p>
 </form>
 </body>
