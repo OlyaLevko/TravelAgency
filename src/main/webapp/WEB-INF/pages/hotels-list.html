@@ -13,13 +13,15 @@
 </div>
 
 <div class="container">
-    <table class="table table-striped" border="2">
-        <tr>
+    <div  th:if="hotels!=null" >
+    <table class="table table-striped" border="2" >
+        <thead>
             <th>No.</th>
             <th>Name</th>
             <th>Country</th>
             <th>Stars</th>
-        </tr>
+        </thead>
+        <tbody>
         <tr  th:each="hotel, iStat: ${hotels}" >
             <td th:text="${iStat.index + 1}" />
             <td th:text="${hotel.name}"  />
@@ -30,8 +32,12 @@
                 <a th:href="@{|/hotel/${hotel.id}|}" > Go to rooms list</a>
             </td>
         </tr>
-
+        </tbody>
     </table>
+    </div>
+    <div  th:if="hotels==null" >
+        <h2>Hotels list is empty !</h2>
+    </div>
 </div>
 
 </body>

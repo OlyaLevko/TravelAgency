@@ -68,22 +68,23 @@ public class RoomRepositoryImpl implements RoomRepository {
 
     @Override
     public List<Room> getAllRoomsInHotel(String hotelName) {
-        return utilityClass.getAllOperationWithinPersistentContext(
-                session -> {
-                    Query query=session.createQuery("select room from Room as room " +
-                            " join room.hotel as hotel where hotel.name= :hotelName ");
-                    query.setParameter("hotelName",hotelName);
-                    return query.list();
-                }
-        );
+//        return utilityClass.getAllOperationWithinPersistentContext(
+//                session -> {
+//                    Query query=session.createQuery("select room from Room as room " +
+//                            " join hotel as hotel where hotel.name= :hotelName ");
+//                    query.setParameter("hotelName",hotelName);
+//                    return query.list();
+//                }
+//        );
+        throw new UnsupportedOperationException("Method is not implemented ");
     }
 
     @Override
-    public List<Room> getAllRoomsInHotelById(Long id) {
+    public List<Room> getAllRoomsInHotelById(Long hotel_id) {
         return utilityClass.getAllOperationWithinPersistentContext(
                 session -> {
-                    Query query=session.createQuery("select room from Room room where hotel.id= :hotelId ");
-                    query.setParameter("hotelId", id );
+                    Query query=session.createQuery("select room from Room room where id.hotel.id= :hotelId ");
+                    query.setParameter("hotelId", hotel_id );
                     return query.list();
                 }
         );

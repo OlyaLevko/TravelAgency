@@ -50,7 +50,7 @@ public class HotelController {
     }
 
     @GetMapping("/all")
-    public String allHotels(ModelMap model){
+    public String allHotels(Model model){
         List<Hotel> hotels=null;
         hotels=hotelService.getAll();
         model.addAttribute("hotels", hotels);
