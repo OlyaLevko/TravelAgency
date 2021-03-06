@@ -8,22 +8,26 @@
     <h2>Country info</h2>
     <div>
         <h2 th:text="${country.getName()}"></h2> <br/>
-        <table border="1">
+        <table class="table" border="1">
+            <thead>
             <tr>
-                <th>No.</th>
-                <th>Id</th>
-                <th>Name</th>
+                <th scope="col">No.</th>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Hotels</th>
             </tr>
+            </thead>
+            <tbody>
             <tr th:each="hotel, iStat: ${hotels}">
-                <td th:text="${iStat.index + 1}" />
+                <td scope="row" th:text="${iStat.index + 1}" />
                 <td th:text="${hotel.id}"  />
                 <td th:text="${hotel.name}"/>
                 <td th:text="${hotel.stars}"/>
                 <td >
                     <a th:href="@{|/room/${hotel.id}/all|}" > Go to rooms list</a>
                 </td>
-
             </tr>
+            </tbody>
         </table>
 
     </div>
