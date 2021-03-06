@@ -2,14 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Orders</title>
+    <title> All orders</title>
 </head>
 <body>
-<div th:replace="header"></div>
-<h1 th:text ="${user.firstName + ' ' + user.lastName + ' list of orders'}"></h1>
+<h1>All orders</h1>
 <table border="2">
     <tr>
         <th>No.</th>
+        <th>User</th>
         <th>Country</th>
         <th>Hotel</th>
         <th>Room</th>
@@ -21,6 +21,7 @@
     </tr>
     <tr th:each="order: ${orders}">
         <td th:text ="${orders.indexOf(order)+1}"></td>
+        <td th:text ="${order.getUser().getFirstName() + ' ' + order.getUser().getLastName()}"></td>
         <td th:text = "${order.getRoom().getId().getHotel().getCountry().getName()}"></td>
         <td th:text = "${order.getRoom().getId().getHotel().getName()}"></td>
         <td th:text = "${order.getRoom().getId().getNumber()}"></td>
@@ -33,6 +34,7 @@
         </td>
         <td th:if = "${order.getStatus().toString().equals('ACTIVE')}">
             <a th:href="@{|/orders/${order.getId()}/cancel|}"> Cancel </a>
+            <a th:href="@{|/orders/${order.getId()}/done|}"> Mark as done </a>
         </td>
     </tr>
 </table>

@@ -8,4 +8,6 @@ public interface OrderService extends  CrudService<Order, Long>{
 
     List<Order> getByUserId(Long id);
     void cancel(Long id);
+
+    void done(Long id);
 }
