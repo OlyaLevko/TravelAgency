@@ -12,7 +12,8 @@
     <div>
 
         <h2>List of rooms in the " <span th:text="${hotel.name}"/> "</h2>
-        <div class="container">
+        <div class="container!=null">
+            <div th:if="rooms">
             <table class="table table-striped" border="2">
                 <tr>
                     <th>No.</th>
@@ -22,12 +23,16 @@
                 </tr>
                 <tr  th:each="room, iStat: ${rooms}" >
                     <td th:text="${iStat.index + 1}" />
-                    <td th:text="${room.number}"  />
+                    <td th:text="${room.id.number}"  />
                     <td th:text="${room.type}"/>
 <!--                    <td th:text="${room.status}" todo show status of room  />-->
                 </tr>
 
             </table>
+            </div>
+            <div th:if="rooms==null">
+                <h2>Rooms list is empty !</h2>
+            </div>
         </div>
 
     </div>
