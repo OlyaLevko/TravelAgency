@@ -29,4 +29,8 @@ public class Order {
     @Column(name = "to_date")
     private LocalDate toDate;
 
+    @Column (name = "status")
+    @Enumerated(value = EnumType.STRING)
+    private OrderStatus status;
+
 }

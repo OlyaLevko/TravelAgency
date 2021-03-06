@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Order</title>
+</head>
+<body>
+<div th:replace="header"></div>
+
+<h1 th:text="${'Make order for '  + user.getFirstName() + user.getLastName()}"></h1>
+    <form  th:action="@{|/orders/${user.getId()}/add|}" th:object="${order}" method="post">
+       <label for="country" > Country: </label>
+        <select th:field="*{room.hotel.country}" id = "country" name = 'country'>
+            <option th:each="country : ${countries}" th:value="${country}" th:text="${country.getName()}" name = 'country'>
+            </option>
+        </select>
+        <input type="submit" value="Find hotels">
+    </form>
+</body>
+</html>

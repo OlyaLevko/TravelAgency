@@ -2,6 +2,7 @@ package com.itacademy.repository.impl;
 
 import com.itacademy.exception.RepositoryException;
 import com.itacademy.model.Hotel;
+import com.itacademy.model.Order;
 import com.itacademy.repository.HotelRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.SessionFactory;
@@ -141,6 +142,14 @@ public class HotelRepositoryImpl implements HotelRepository {
                 session.close();
             }
         }
+        return hotels;
+    }
+
+    @Override
+    public List<Hotel> getByCountry(Long id) {
+        Session session = sessionFactory.openSession();
+        List<Hotel> hotels = session.createQuery("select hotel from Hotel hotel where hotel.id = " + id, Hotel.class).getResultList();
+        session.close();
         return hotels;
     }
 }

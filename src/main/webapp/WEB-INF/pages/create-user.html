@@ -3,13 +3,14 @@
     <title>Create new User</title>
 </head>
 <body>
+<div th:replace="header"></div>
 <div>
     <h1>Create new User</h1>
 </div>
 <div>
     <form  th:action="@{/users/add}" th:object="${user}" method="post">
         <p>
-            <label class="col-sm-2 control-label" for="first-name">First name:</label>
+            <label  for="first-name">First name:</label>
             <input type="text" th:field="*{firstName}" id="first-name"/>
         </p>
         <p>

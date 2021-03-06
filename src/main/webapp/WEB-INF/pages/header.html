@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <style>
+        .header{
+            width:100%;
+            height:10%;
+            background:darkseagreen;
+            position:sticky;
+            top: 0;
+        }
+        .header-font{
+            text-decoration: blink;
+            font-size: large;
+            color: silver;
+            font-weight: 500;
+            font-family: Arial;
+        }
+    </style>
+</head>
+
+<header class="header">
+    <a  th:href="@{/}" class="header-font">Travel agency</a>
+    <nav>
+        <a href="/country/all">Countries</a>
+        <a href="/hotels/all">Hotels</a>
+        <a href="/room/{hotel_id}/all/">Rooms</a>
+    </nav>
+    <aside>
+        <a href="/">Sign in</a>
+    </aside>
+</header>
