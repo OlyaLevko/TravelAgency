@@ -11,7 +11,8 @@
 
 <h2>New room creation in hotel " <span th:text="${hotel.name}"/> " </h2>
 
-<form th:action="@{|/room/create/${hotel.id}|}" method="post">
+<!--====/${hotel.id}==== todo experiments with th:value and url-->
+<form th:action="@{|/room/create|}" method="post" >
     <table>
         <tr>
             <td>
@@ -19,6 +20,8 @@
             </td>
             <td>
                 <input type="text" id="number" name="number"/>
+
+                <input type="hidden" id="hotel_id" name="hotel_id" th:value="${hotel.id}"/>
             </td>
 
         </tr>
@@ -27,7 +30,7 @@
                 <label for="type">Type of room:</label>
             </td>
             <td>
-                <select class="form-control" name="type" id="type">
+                <select name="type" id="type">
                     <option th:each="type : ${types}" th:value="${type}" th:text="${type}"/>
                 </select>
             </td>

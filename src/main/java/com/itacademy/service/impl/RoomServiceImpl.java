@@ -1,6 +1,7 @@
 package com.itacademy.service.impl;
 
 import com.itacademy.model.Room;
+import com.itacademy.model.RoomCompositeId;
 import com.itacademy.repository.RoomRepository;
 import com.itacademy.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(RoomCompositeId id) {
         roomRepository.delete(id);
     }
 
@@ -34,7 +35,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room getById(Long id) {
+    public Room getById(RoomCompositeId id) {
         return roomRepository.getById(id);
     }
 
