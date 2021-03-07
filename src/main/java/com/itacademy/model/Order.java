@@ -22,7 +22,6 @@ public class Order {
     private User user;
 
     @ManyToOne
-//    @JoinColumn(name = "room_id")
     @JoinColumns({
             @JoinColumn(name = "hotel_id"),
             @JoinColumn(name="number")

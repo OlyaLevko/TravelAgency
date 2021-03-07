@@ -13,14 +13,14 @@ INSERT INTO hotels (id,name,stars,country_id) VALUES (102,'Podillya', 5, 102);
 INSERT INTO hotels (id,name,stars,country_id) VALUES (103,'Lviv', 4, 102);
 INSERT INTO hotels (id,name,stars,country_id) VALUES (104,'Bucovel-resort', 5, 102);
 
-INSERT INTO rooms (number, type, price, hotel_id) VALUES (101, 'SINGE', 30, 100);
-INSERT INTO rooms (number, type, price, hotel_id) VALUES (102, 'SINGE', 30, 100);
+INSERT INTO rooms (number, type, price, hotel_id) VALUES (101, 'SINGLE', 30, 100);
+INSERT INTO rooms (number, type, price, hotel_id) VALUES (102, 'SINGLE', 30, 100);
 INSERT INTO rooms (number, type, price, hotel_id) VALUES (103, 'DOUBLE', 50, 100);
 INSERT INTO rooms (number, type, price, hotel_id) VALUES (104, 'SUIT', 100, 100);
 INSERT INTO rooms (number, type, price, hotel_id) VALUES (105, 'PRESIDENT_SUIT', 200, 100);
 INSERT INTO rooms (number, type, price, hotel_id) VALUES (101, 'DOUBLE', 50, 102);
 INSERT INTO rooms (number, type, price, hotel_id) VALUES (102, 'KING', 60, 102);
-INSERT INTO rooms (number, type, price, hotel_id) VALUES (103, 'SINGE', 40, 102);
+INSERT INTO rooms (number, type, price, hotel_id) VALUES (103, 'SINGLE', 40, 102);
 INSERT INTO rooms (number, type, price, hotel_id) VALUES (101, 'DOUBLE', 60, 103);
 INSERT INTO rooms (number, type, price, hotel_id) VALUES (102, 'QUAD', 65, 103);
 INSERT INTO rooms (number, type, price, hotel_id) VALUES (103, 'SUIT', 45, 103);

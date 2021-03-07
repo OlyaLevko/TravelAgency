@@ -1,6 +1,7 @@
 package com.itacademy.repository.impl;
 
 import com.itacademy.exception.NotSuchElementException;
+import com.itacademy.model.Hotel;
 import com.itacademy.model.Order;
 import com.itacademy.model.User;
 import com.itacademy.repository.OrderRepository;
@@ -84,6 +85,22 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<Order> getByUserId(Long id) {
         Session session = sessionFactory.openSession();
         List<Order> orders = session.createNativeQuery("select * from orders where user_id = " + id, Order.class).getResultList();
+        session.close();
+        return orders;
+    }
+
+    @Override
+    public List<Order> getActiveOrdersInHotel(Long id) {
+        Session session = sessionFactory.openSession();
+        List<Order> orders = session.createQuery("select * from orders where hotel_id = " + id + " and status like 'ACTIVE'", Order.class).getResultList();
+        session.close();
+        return orders;
+    }
+
+    @Override
+    public List<Order> getActiveOrdersInHotelByRoom(Long hotelId, Integer roomNumber) {
+        Session session = sessionFactory.openSession();
+        List<Order> orders = session.createNativeQuery("select * from orders where hotel_id = " + hotelId + " and status like 'ACTIVE' and number = " + roomNumber, Order.class).getResultList();
         session.close();
         return orders;
     }

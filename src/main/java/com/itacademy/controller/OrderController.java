@@ -1,6 +1,9 @@
 package com.itacademy.controller;
 
+import com.itacademy.model.Country;
 import com.itacademy.model.Order;
+import com.itacademy.model.Room;
+import com.itacademy.model.RoomCompositeId;
 import com.itacademy.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.HashSet;
+
 
 @Controller
 @RequestMapping("/orders")
@@ -59,9 +61,6 @@ public class OrderController {
 
     @GetMapping("{user_id}/add")
     public String makeOrder(@PathVariable Long user_id, Model model){
-        Order order1 = orderService.getById(35L);
-        order1.getRoom().setBookedDates(new HashSet<>( Arrays.asList(LocalDate.of(2021, 04,10))));
-        order1.getRoom().bookDates(LocalDate.of(2021, 3, 15), LocalDate.of(2021,3,16));
         model.addAttribute("order", new Order());
         model.addAttribute("user", userService.getById(user_id));
         model.addAttribute("countries", countryService.getAll());
@@ -69,8 +68,8 @@ public class OrderController {
     }
 
     @PostMapping("{user_id}/add")
-    public String chooseCountry(@ModelAttribute("order") Order order, Model model, @PathVariable String user_id){
-        model.addAttribute("hotels", hotelService.getByCountry(order.getRoom().getId().getHotel().getCountry().getId()));
+    public String chooseCountry(@ModelAttribute("country") Country country, Model model, @PathVariable String user_id){
+        model.addAttribute("hotels", hotelService.getByCountry(country.getId()));
         return "create-order";
     }
 }

@@ -5,6 +5,7 @@ import com.itacademy.model.RoomCompositeId;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public interface RoomService extends CrudService<Room, RoomCompositeId>{
     List<Room> getAllRoomsInHotel(String hotelName);
@@ -13,6 +14,8 @@ public interface RoomService extends CrudService<Room, RoomCompositeId>{
 
     List<Room> getAvailableRoomsInHotelById(Long hotelId, LocalDate fromDate, LocalDate toDate);
 
+    boolean checkIfRoomIsAvailable(Long hotelId, Integer roomNumber, LocalDate fromDate, LocalDate toDate);
 
+    Set<LocalDate> getBookedDatesForRoom(Long hotelId, Integer roomNumber);
 
 }
