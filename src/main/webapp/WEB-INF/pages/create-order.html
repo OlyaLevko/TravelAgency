@@ -9,10 +9,10 @@
 
 
 <h1 th:text="${'Make order for '  + user.getFirstName() + user.getLastName()}"></h1>
-    <form  th:action="@{|/orders/${user.getId()}/add|}" th:object="${order}" method="post">
+    <form  th:action="@{|/orders/${user.getId()}/add|}" th:object="${hotel}" method="post">
        <label for="country" > Country: </label>
-        <select th:field="*{room.id.hotel.country}" id = "country" name = 'country'>
-            <option th:each="country : ${countries}" th:value="${country}" th:text="${country.getName()}">
+        <select th:field="*{name}" id = "country">
+            <option th:each="country : ${countries}" th:value="${country.getName()}" th:text="${country.getName()}">
             </option>
         </select>
         <input type="submit" value="Find hotels">

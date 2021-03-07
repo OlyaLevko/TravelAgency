@@ -5,6 +5,7 @@ import com.itacademy.model.Order;
 import com.itacademy.model.OrderStatus;
 import com.itacademy.repository.OrderRepository;
 import com.itacademy.service.OrderService;
+import com.itacademy.service.RoomService;
 import com.itacademy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,21 +22,21 @@ import java.util.Set;
 public class OrderServiceImpl implements OrderService {
     OrderRepository  orderRepository;
     UserService userService;
+    RoomService roomService;
 
-    @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, RoomService roomService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
+        this.roomService = roomService;
     }
 
     @Override
     public Order create(Order order) {
         if(order.getFromDate().isAfter(order.getToDate()))
             throw new IllegalArgumentException("Start date must be until end date.");
-        if(!order.getRoom().isAvailable(order.getFromDate(),order.getToDate()))
+        if(!roomService.checkIfRoomIsAvailable(order.getRoom().getId().getHotel().getId(),order.getRoom().getId().getNumber(),order.getFromDate(), order.getToDate()))
             throw new UnsupportedOperationException("Room is not available for period " +
                     order.getFromDate() + " + " + order.getToDate());
-        order.getRoom().bookDates(order.getFromDate(), order.getToDate());
         order.setStatus(OrderStatus.ACTIVE);
         return orderRepository.save(order);
     }
@@ -75,7 +76,6 @@ public class OrderServiceImpl implements OrderService {
     public void cancel(Long id) {
         Order order = getById(id);
         order.setStatus(OrderStatus.CANCELED);
-        order.getRoom().removeDates(order.getFromDate(), order.getToDate());
         update(order);
     }
 
@@ -83,7 +83,6 @@ public class OrderServiceImpl implements OrderService {
     public void done(Long id) {
         Order order = getById(id);
         order.setStatus(OrderStatus.DONE);
-        order.getRoom().removeDates(order.getFromDate(), order.getToDate());
         update(order);
     }
 
