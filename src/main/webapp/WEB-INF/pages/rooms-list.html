@@ -9,23 +9,41 @@
 </head>
 <body>
     <h2> Rooms list </h2>
-    <div>
+    <div >
 
         <h2>List of rooms in the " <span th:text="${hotel.name}"/> "</h2>
-        <div class="container!=null">
+        <div class="container!=null" with="75%">
             <div th:if="rooms">
-            <table class="table table-striped" border="2">
+            <table class="table table-striped" border="2" >
                 <tr>
                     <th>No.</th>
                     <th>Number</th>
                     <th>Type</th>
-                    <th>Status</th>
+                    <th>Price</th>
+<!--                    <th>Status</th>-->
+                    <th colspan="2">Operations</th>
                 </tr>
                 <tr  th:each="room, iStat: ${rooms}" >
-                    <td th:text="${iStat.index + 1}" />
-                    <td th:text="${room.id.number}"  />
-                    <td th:text="${room.type}"/>
+                    <td th:text="${iStat.index + 1}"></td>
+                    <td th:text="${room.id.number}"></td>
+                    <td th:text="${room.type}"></td>
+                    <td th:text="${room.price}"></td>
 <!--                    <td th:text="${room.status}" todo show status of room  />-->
+                    <td>
+                        <form th:action="@{|/room/update|}" method="get">
+                            <imput type="hidden" name="hotel_id" id="hotel_id" th:value="${hotel.id}"></imput>
+                            <imput type="hidden" name="number" id="number" th:value="${room.id.number}"></imput>
+                            <input type="submit" value=" Edit "/>
+                        </form>
+
+                    </td>
+                    <td>
+                        <form th:action="@{|/room/delete|}" method="post">
+                            <imput type="hidden" name="hotel_id" th:value="${hotel.id}"></imput>
+                            <imput type="hidden" name="number" th:value="${room.id.number}"></imput>
+                            <input type="submit" value=" Delete "/>
+                        </form>
+                    </td>
                 </tr>
 
             </table>

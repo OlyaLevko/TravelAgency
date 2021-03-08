@@ -18,13 +18,13 @@ public class RoomController {
 
     private RoomService roomService;
     private HotelService hotelService;
-    private RoomDto roomDto;
+    private RoomDto roomDtoBean;
 
     @Autowired
-    public RoomController(RoomService roomService,HotelService hotelService,RoomDto roomDto) {
+    public RoomController(RoomService roomService,HotelService hotelService,RoomDto roomDtoBean) {
         this.roomService = roomService;
         this.hotelService=hotelService;
-        this.roomDto=roomDto;
+        this.roomDtoBean = roomDtoBean;
     }
 
     @GetMapping("/{hotel_id}/all")
@@ -46,7 +46,7 @@ public class RoomController {
 
         Hotel hotel=hotelService.getById(roomDto.getHotel_id());
 
-        Room room =this.roomDto.convertToRoom(roomDto);
+        Room room =this.roomDtoBean.convertToRoom(roomDto);
 //        room.setId(new RoomCompositeId(hotel,roomDto.getNumber()));
         roomService.create(room);
         model.addAttribute("types", Type.values());
@@ -55,15 +55,26 @@ public class RoomController {
     }
 
     @GetMapping("/update")
-    public String updateRoomForm(@ModelAttribute RoomCompositeId id, Model model){
+    public String updateRoomForm(@RequestParam Long hotel_id,
+                                 @RequestParam Integer number, Model model){
+        RoomCompositeId id=new RoomCompositeId(hotelService.getById(hotel_id),number);
         model.addAttribute("room",roomService.getById(id));
+        model.addAttribute("types",Type.values());
         return "room-update";
     }
 
     @PostMapping("/update")
-    public String updateRoom(@ModelAttribute Room room, Model model){
+    public String updateRoom(@ModelAttribute RoomDto roomDto){
+        Room room= roomDtoBean.convertToRoom(roomDto);
         roomService.update(room);
-        return "redirect:/"+room.getId().getHotel().getId()+"/all"; // todo fix redirect link  ==="+room.getHotel().getId()+"
+        return "redirect:/room/"+room.getId().getHotel().getId()+"/all"; // todo fix redirect link  ==="+room.getHotel().getId()+"
     }
 
+    @PostMapping("/delete")
+    public String roomDelete(@RequestParam Long hotel_id,
+                             @RequestParam Integer number){
+        RoomCompositeId roomId=new RoomCompositeId(hotelService.getById(hotel_id),number);
+        roomService.delete(roomId);
+        return "redirect:/"+hotel_id+"/all";
+    }
 }

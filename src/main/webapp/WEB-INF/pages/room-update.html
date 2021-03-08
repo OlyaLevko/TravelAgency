@@ -9,11 +9,46 @@
 </head>
 <body>
 <!--todo room.hotel.name -->
-    <h2>Update room No: <span th:${room.number}/>, in the hotel "<span th:text="${room.id.}"/>"</h2>
+    <h2>Update room No: <span th:text="${room.id.number}"/>, in the hotel "<span th:text="${room.id.hotel.name}"/>"</h2>
 
-    <div>
+</div>
+<div>
+    <form class="form-horizontal" method="post" th:action="@{/room/update}" th:object="${room}">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="number">Number:</label>
+            <div class="col-sm-8">
+                <input class="form-control" id="number" th:field="*{id.number}" type="text"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('id.number')}" th:errors="*{id.number}"></small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="price">Price:</label>
+            <div class="col-sm-8">
+                <input class="form-control" id="price" th:field="*{price}" type="text"/>
+                <small class="form-text text-muted" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+            </div>
+        </div>
 
-
-    </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="type">Type:</label>
+            <div class="col-sm-8">
+                <select class="form-control" id="type" name="type">
+                        <span th:each="type : ${types}">
+                            <option th:if="${type == room.type}" th:selected="${true}"
+                                    th:text="${type}" th:value="${type}"/>
+                            <option th:text="${type}" th:unless="${type == room.type}"
+                                    th:value="${type}"/>
+                        </span>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-8">
+            <input class="btn btn-info" type="submit" value="Update"/>
+            <input class="btn btn" type="reset" value="Clear"/>
+            <input name="id" th:value="*{id.hotel.id}" type="hidden"/>
+        </div>
+    </form>
+</div>
+<a th:href="@{|/room/${room.id.hotel.id}/all|}">Go to Rooms List</a>
 </body>
 </html>

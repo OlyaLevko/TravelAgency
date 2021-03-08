@@ -2,6 +2,7 @@ package com.itacademy.model;
 
 import com.itacademy.service.HotelService;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
