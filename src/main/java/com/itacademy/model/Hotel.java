@@ -37,6 +37,6 @@ public class Hotel{
     @JoinColumn(name = "country_id")
     private Country country;
 
-//    @OneToMany(mappedBy = "id", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-//    private List<Room> rooms;
+    @OneToMany(mappedBy = "id.hotel", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Room> rooms;
 }

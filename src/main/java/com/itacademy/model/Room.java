@@ -32,7 +32,7 @@ public class Room {
     private Long price; // in cents
 
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE)
     private List<Order> orders;
 
 }

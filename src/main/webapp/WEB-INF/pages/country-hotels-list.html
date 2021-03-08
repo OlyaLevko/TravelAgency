@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      rel="stylesheet">
 <head>
     <meta charset="UTF-8">
     <title>Country</title>
 </head>
 <body>
-    <h2>Country info</h2>
+    <h2>Hotels in the Country </h2>
     <div>
         <h2 th:text="${country.getName()}"></h2> <br/>
-        <table class="table" border="1">
+
+        <table class="table table-striped" border="2">
             <thead>
             <tr>
-                <th scope="col">No.</th>
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Hotels</th>
+                <th>No.</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Stars</th>
+                <th>Go to hotels list</th>
             </tr>
             </thead>
             <tbody>

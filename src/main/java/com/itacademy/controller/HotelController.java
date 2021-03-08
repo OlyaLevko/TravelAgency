@@ -35,8 +35,6 @@ public class HotelController {
 
     @GetMapping("/add")
     public String add(Model model){
-        Type[] types=Type.values();
-        model.addAttribute("types",types);
         return "create-hotel";
     }
 
@@ -46,6 +44,7 @@ public class HotelController {
 
         hotel=hotelService.create(hotel);
         model.addAttribute("hotel",hotel);
+        model.addAttribute("types",Type.values());
         return "create-room";
     }
 
@@ -57,18 +56,23 @@ public class HotelController {
         return "hotels-list";
     }
 
-    @GetMapping("/demo")
-    public String demo(){
+    @GetMapping("/{hotel_id}/update")
+    public String updateHotelPage(@PathVariable Long hotel_id, Model model ){
+        Hotel hotelFromDb=hotelService.getById(hotel_id);
+        model.addAttribute("hotel",hotelFromDb);
+        return "hotel-update";
+    }
 
-        Hotel hotel=new Hotel();
-        hotel.setName("Trump");
-        Country country=countryService.getByCountryName("China");
-        hotel.setCountry(country);
-        hotel.setStars(4);
+    @PostMapping("/update")
+    public String updateHotel(@ModelAttribute Hotel hotel, Model model ){
+        hotelService.update(hotel);
+        return "redirect:hotels/all";
+    }
 
-        hotelService.create(hotel);
-
-        return "index";
+    @PostMapping("/{hotel_id}/delete")
+    public String deleteHotel(@PathVariable Long hotel_id, Model model){
+        hotelService.delete(hotel_id);
+        return "redirect:/country/"+hotel_id+"/hotels";
     }
 
 }

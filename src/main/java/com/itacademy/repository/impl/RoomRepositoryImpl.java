@@ -42,6 +42,7 @@ public class RoomRepositoryImpl implements RoomRepository {
                 session -> {
                     Room roomFromDb=session.get(Room.class,room.getId());
                     roomFromDb.setType(room.getType());
+                    roomFromDb.setPrice(room.getPrice());
 //                    roomFromDb.setOrders(room.getOrders());  todo figure out logic how to set orders
                     return room;
                 }
