@@ -8,7 +8,9 @@
     <title>Rooms list</title>
 </head>
 <body>
+<div th:replace="header"></div>
     <h2> Rooms list </h2>
+    <button>  <a th:href="@{|/room/create/${hotel.id}|}"> Create new room </a></button>
     <div >
 
         <h2>List of rooms in the " <span th:text="${hotel.name}"/> "</h2>
@@ -30,22 +32,22 @@
                     <td th:text="${room.price}"></td>
 <!--                    <td th:text="${room.status}" todo show status of room  />-->
                     <td>
-                        <form th:action="@{|/room/update|}" method="get">
-                            <imput type="hidden" name="hotel_id" id="hotel_id" th:value="${hotel.id}"></imput>
-                            <imput type="hidden" name="number" id="number" th:value="${room.id.number}"></imput>
-                            <input type="submit" value=" Edit "/>
-                        </form>
+                        <button><a th:href="@{|/room/${room.id.number}/update/${hotel.id}|}"> Update </a></button>
+<!--                        <form th:action="c" method="get">-->
+<!--                            <imput type="hidden" name="hotel_id" id="hotel_id" th:value="${hotel.id}"></imput>-->
+<!--                            <imput type="hidden" name="number" id="number" th:value="${room.id.number}"></imput>-->
+<!--                            <input type="submit" th:value=" Edit "/>-->
+<!--                        </form>-->
 
                     </td>
                     <td>
-                        <form th:action="@{|/room/delete|}" method="post">
-                            <imput type="hidden" name="hotel_id" th:value="${hotel.id}"></imput>
-                            <imput type="hidden" name="number" th:value="${room.id.number}"></imput>
+                        <form th:action="@{/room/delete(hotel_id=${hotel.id},number=${room.id.number})}" method="post">
+<!--                            <imput type="hidden" name="hotel_id" th:value="${hotel.id}"></imput>-->
+<!--                            <imput type="hidden" name="number" th:value="${room.id.number}"></imput>-->
                             <input type="submit" value=" Delete "/>
                         </form>
                     </td>
                 </tr>
-
             </table>
             </div>
             <div th:if="rooms==null">

@@ -1,23 +1,17 @@
 package com.itacademy.controller;
 
 import com.itacademy.dto.HotelDto;
-import com.itacademy.model.Country;
 import com.itacademy.model.Hotel;
 import com.itacademy.model.Type;
-import com.itacademy.model.User;
-import com.itacademy.repository.UserRepository;
 import com.itacademy.service.CountryService;
 import com.itacademy.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,7 +33,7 @@ public class HotelController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute HotelDto hotelDto,Model model ){
+    public String add(@Validated @ModelAttribute HotelDto hotelDto, BindingResult result, Model model ){
         Hotel hotel=HotelDto.convertToHotel(hotelDto);
 
         hotel=hotelService.create(hotel);
@@ -50,10 +44,13 @@ public class HotelController {
 
     @GetMapping("/all")
     public String allHotels(Model model){
-        List<Hotel> hotels=null;
-        hotels=hotelService.getAll();
+        List<Hotel> hotels=hotelService.getAll();
         model.addAttribute("hotels", hotels);
         return "hotels-list";
+    }
+    @GetMapping("/{hotel_id}")
+    public String hotelsRoomsList(@PathVariable Long hotel_id){
+        return "redirect:/room/"+hotel_id+"/all";
     }
 
     @GetMapping("/{hotel_id}/update")
@@ -64,7 +61,10 @@ public class HotelController {
     }
 
     @PostMapping("/update")
-    public String updateHotel(@ModelAttribute Hotel hotel, Model model ){
+    public String updateHotel(@Validated @ModelAttribute Hotel hotel, BindingResult result,Model model){
+        if(result.hasErrors()){
+            return "hotel/update";
+        }
         hotelService.update(hotel);
         return "redirect:hotels/all";
     }
@@ -72,7 +72,7 @@ public class HotelController {
     @PostMapping("/{hotel_id}/delete")
     public String deleteHotel(@PathVariable Long hotel_id, Model model){
         hotelService.delete(hotel_id);
-        return "redirect:/country/"+hotel_id+"/hotels";
+        return "redirect:/hotels/all";
     }
 
 }

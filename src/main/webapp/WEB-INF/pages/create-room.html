@@ -9,6 +9,7 @@
     <title>Create room</title>
 </head>
 <body>
+<div th:replace="header"></div>
 
 <h2>New room creation in hotel " <span th:text="${hotel.name}"/> " </h2>
 
@@ -48,5 +49,6 @@
     </div>
 
 </form>
+<button><a th:href="@{|/room/${hotel.id}/all|}">Return to rooms list</a></button>
 </body>
 </html>

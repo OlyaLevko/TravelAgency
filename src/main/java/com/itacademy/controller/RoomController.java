@@ -1,16 +1,17 @@
 package com.itacademy.controller;
 
 import com.itacademy.dto.RoomDto;
-import com.itacademy.model.Hotel;
-import com.itacademy.model.Room;
-import com.itacademy.model.RoomCompositeId;
-import com.itacademy.model.Type;
+import com.itacademy.model.*;
 import com.itacademy.service.HotelService;
 import com.itacademy.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/room")
@@ -42,8 +43,12 @@ public class RoomController {
     }
 
     @PostMapping("/create")
-    public String createRoom( @ModelAttribute RoomDto roomDto, Model model){
+    public String createRoom(@Validated @ModelAttribute RoomDto roomDto, BindingResult result, Model model){
 
+        if(result.hasErrors()){
+            model.addAttribute("types", Type.values());
+            return "create-room";
+        }
         Hotel hotel=hotelService.getById(roomDto.getHotel_id());
 
         Room room =this.roomDtoBean.convertToRoom(roomDto);
@@ -54,20 +59,25 @@ public class RoomController {
         return "create-room";
     }
 
-    @GetMapping("/update")
-    public String updateRoomForm(@RequestParam Long hotel_id,
-                                 @RequestParam Integer number, Model model){
+    @GetMapping("/{number}/update/{hotel_id}")
+    public String updateRoomForm(@PathVariable Integer number,
+                                 @PathVariable Long hotel_id, Model model){
         RoomCompositeId id=new RoomCompositeId(hotelService.getById(hotel_id),number);
-        model.addAttribute("room",roomService.getById(id));
+        Room room=roomService.getById(id);
+        model.addAttribute("room",roomDtoBean.convertToDto(room));
+        model.addAttribute("hotel",room.getId().getHotel());
         model.addAttribute("types",Type.values());
         return "room-update";
     }
 
     @PostMapping("/update")
-    public String updateRoom(@ModelAttribute RoomDto roomDto){
+    public String updateRoom(@Valid @ModelAttribute RoomDto roomDto, BindingResult result, Model model){
+        if(result.hasErrors()){
+            return "redirect:/room/"+roomDto.getNumber()+"/update/"+roomDto.getHotel_id();
+        }
         Room room= roomDtoBean.convertToRoom(roomDto);
         roomService.update(room);
-        return "redirect:/room/"+room.getId().getHotel().getId()+"/all"; // todo fix redirect link  ==="+room.getHotel().getId()+"
+        return "redirect:/room/"+room.getId().getHotel().getId()+"/all";
     }
 
     @PostMapping("/delete")
@@ -75,6 +85,6 @@ public class RoomController {
                              @RequestParam Integer number){
         RoomCompositeId roomId=new RoomCompositeId(hotelService.getById(hotel_id),number);
         roomService.delete(roomId);
-        return "redirect:/"+hotel_id+"/all";
+        return "redirect:/room/"+hotel_id+"/all";
     }
 }

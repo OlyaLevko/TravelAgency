@@ -8,17 +8,17 @@
     <title>Update room</title>
 </head>
 <body>
-<!--todo room.hotel.name -->
-    <h2>Update room No: <span th:text="${room.id.number}"/>, in the hotel "<span th:text="${room.id.hotel.name}"/>"</h2>
+<div th:replace="header"></div>
+
+    <h2>Update room No: <span th:text="${number}"/>, in the hotel "<span th:text="${hotel.name}"/>"</h2>
 
 </div>
 <div>
     <form class="form-horizontal" method="post" th:action="@{/room/update}" th:object="${room}">
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="number">Number:</label>
+            <label class="col-sm-2 control-label" for="number">Number: <span th:text="${number}"/></label>
             <div class="col-sm-8">
-                <input class="form-control" id="number" th:field="*{id.number}" type="text"/>
-                <small class="form-text text-muted" th:if="${#fields.hasErrors('id.number')}" th:errors="*{id.number}"></small>
+                <input id="number" th:field="*{number}" type="hidden"/>
             </div>
         </div>
         <div class="form-group">
@@ -45,10 +45,10 @@
         <div class="col-sm-offset-2 col-sm-8">
             <input class="btn btn-info" type="submit" value="Update"/>
             <input class="btn btn" type="reset" value="Clear"/>
-            <input name="id" th:value="*{id.hotel.id}" type="hidden"/>
+            <input name="id" th:field="*{hotel_id}" th:value="${room.hotel_id}" type="hidden"/>
         </div>
     </form>
 </div>
-<a th:href="@{|/room/${room.id.hotel.id}/all|}">Go to Rooms List</a>
+<a th:href="@{|/room/${hotel.id}/all|}">Go to Rooms List</a>
 </body>
 </html>

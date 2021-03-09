@@ -44,10 +44,6 @@ public class CountryController {
         return "country-list";
     }
 
-//    @GetMapping("/country_")
-//    public String deleteCountryPage(){
-//
-//    }
     @PostMapping("/{country_id}/delete")
     public String deleteCountry(@PathVariable Long country_id){
         countryService.delete(country_id);

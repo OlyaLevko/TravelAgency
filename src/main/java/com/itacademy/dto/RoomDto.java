@@ -6,10 +6,10 @@ import com.itacademy.model.RoomCompositeId;
 import com.itacademy.model.Type;
 import com.itacademy.service.HotelService;
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @EqualsAndHashCode
@@ -21,9 +21,9 @@ public class RoomDto {
     private Long hotel_id;
     @NotNull
     private Integer number;
-    @NotBlank
     private Type type;
     @NotNull
+    @Range()
     private Long price;
 
     private HotelService hotelService;
@@ -33,6 +33,11 @@ public class RoomDto {
         this.hotelService = hotelService;
     }
 
+    public RoomDto() {
+
+    }
+
+
     public Room convertToRoom(RoomDto roomDto){
         Room room =new Room();
         Hotel hotel=hotelService.getById(roomDto.getHotel_id());
@@ -40,6 +45,15 @@ public class RoomDto {
         room.setType(roomDto.type);
         room.setPrice(roomDto.price);
         return room;
+    }
+
+    public RoomDto convertToDto(Room room){
+        RoomDto roomDto=new RoomDto();
+        roomDto.setHotel_id(room.getId().getHotel().getId());
+        roomDto.setNumber(room.getId().getNumber());
+        roomDto.setPrice(room.getPrice());
+        roomDto.setType(room.getType());
+        return roomDto;
     }
 
     public Long getHotel_id() {

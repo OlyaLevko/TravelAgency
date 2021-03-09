@@ -8,7 +8,9 @@
     <title>Country</title>
 </head>
 <body>
+<div th:replace="header"></div>
     <h2>Hotels in the Country </h2>
+    <button><a href="/hotels/add">Add new hotel</a> </button>
     <div>
         <h2 th:text="${country.getName()}"></h2> <br/>
 
@@ -19,7 +21,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Stars</th>
-                <th>Go to hotels list</th>
+                <th>Go to rooms list</th>
             </tr>
             </thead>
             <tbody>
