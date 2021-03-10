@@ -20,8 +20,6 @@ public class HomeController {
 
     @GetMapping(value = "/")
     public String hello(){
-        Authentication a = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(a.getPrincipal());
         return "index";
     }
 

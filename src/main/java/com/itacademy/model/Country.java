@@ -29,7 +29,7 @@ public class Country {
     private String name;
 
 //    @NotBlank
-//    @URL
+    @URL
     @Column(name="picture_url",length = 2050)
     private String pictureUrl;
 
