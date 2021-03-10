@@ -1,0 +1,59 @@
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <style>
+
+        .header{
+            width:100%;
+            height:15%;
+            background-image: url("https://images.photowall.com/products/59504/mountain-view-1.jpg?h=699&q=85");
+            position:sticky;
+            top: 0;
+        }
+        .header-font{
+            text-decoration: blink;
+            font-size: 56px;
+            color: white;
+            font-weight: 1000;
+            font-family: Arial;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <title>Login Customer</title>
+</head>
+
+<body>
+<div class="container-main">
+    <header class="header">
+        <a  th:href="@{/}" class="header-font">Travel agency</a>
+    </header>
+    <h2> Login </h2>
+    <form class="form-horizontal" method="post" action="/login">
+
+        <div class="form-group">
+
+            <label class="col-sm-2 control-label" for="username">Username:</label>
+            <div class="col-sm-6">
+            <input type="text" id="username" name="username"  placeholder="Username" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">Password:</label>
+            <div class="col-sm-6">
+            <input type="password" id="password" name="password"  placeholder="Password" required>
+            </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-6">
+            <button class="btn btn-info" type="submit">Sign in</button>
+        <a href="/users/add" class="btn btn-info" role="button" aria-pressed="true">New User</a>
+        </div>
+
+    </form>
+
+</div>
+</body>
+</html>

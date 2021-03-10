@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose country</title>
+</head>
+<body>
+<div th:replace="header"></div>
+
+
+<h1>Please choose hotel</h1>
+
+<table border="2">
+    <tr>
+    <th>No.</th>
+    <th>Name</th>
+    <th>Rating</th>
+    </tr>
+    <tr  th:each="hotel: ${hotels}" >
+        <td th:text="${hotels.indexOf(hotel) + 1}"></td>
+        <td><a th:text="${hotel.getName()}"  th:href="@{|/orders/make/${hotel.getCountry().getId()}/hotels/${hotel.getId()}/from|}"></a></td>
+        <td><small th:each="star: ${#numbers.sequence( 1, hotel.getStars())}">&#9733</small></td>
+    </tr>
+</table>
+
+</body>
+</html>
