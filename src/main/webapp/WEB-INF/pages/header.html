@@ -52,21 +52,24 @@
                          </div>
                      </li>
                      </div>
+                     <div sec:authorize="hasAuthority('USER')" >
                      <li class="nav-item dropdown" >
                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                              Profile
                          </a>
                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                             <a class="dropdown-item" href="/users/update">Update</a>
-                             <a class="dropdown-item" href="/orders/all">My orders</a>
-                             <div class="dropdown-divider"></div>
-                             <a class="dropdown-item" href="#">Log out</a>
+                             <a class="dropdown-item" th:if = "${#authorization.expression('hasAuthority(''USER'')')}" th:href="@{|/users/${@userServiceImpl.getByEmail(#authentication.getName()).getId()}/update|}">Update</a>
+                             <a class="dropdown-item" th:if = "${#authorization.expression('hasAuthority(''USER'')')}" th:href="@{|/orders/${@userServiceImpl.getByEmail(#authentication.getName()).getId()}/read|}">My orders</a>
                          </div>
+                     </li>
+                     </div>
                      <li class="nav-item">
-                         <a class="nav-link" href="/login" >Login</a>
+
+                         <a class="nav-link" href="/login" th:unless = "${#authorization.expression('isAuthenticated()')}">Login</a>
                      </li>
                      <li class="nav-item">
-                         <a class="nav-link" href="/perform-logout" >Log out</a>
+                         <a class="nav-link" href="/perform-logout" th:if = "${#authorization.expression('hasAuthority(''USER'')')}">Log out</a>
+
                      </li>
 
                  </ul>
