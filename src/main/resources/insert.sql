@@ -3,9 +3,9 @@ INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (
 INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (22, 'Luck', 'Grey', 'luck@mail.com', '3333', 'USER');
 INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (23, 'Lucy', 'Perry', 'lucy@mail.com', '4444', 'USER');
 
-INSERT INTO countries (id,name) VALUES (100,'India');
-INSERT INTO countries (id,name) VALUES (101,'China');
-INSERT INTO countries (id,name) VALUES (102,'Ukraine');
+INSERT INTO countries (id,name,picture_url) VALUES (100,'India','https://www.planetware.com/wpimages/2020/01/india-in-pictures-beautiful-places-to-photograph-taj-mahal.jpg');
+INSERT INTO countries (id,name,picture_url) VALUES (101,'China','https://www.planetware.com/wpimages/2020/01/china-in-pictures-beautiful-places-to-photograph-the-great-wall.jpg');
+INSERT INTO countries (id,name,picture_url) VALUES (102,'Ukraine','https://www.worldtravelguide.net/wp-content/uploads/2017/03/shu-Ukraine-Kiev-MonumentIndependence_1088907020-1440x823-EDITORIAL.jpg');
 
 INSERT INTO hotels (id,name,stars,country_id) VALUES (100,'SpaResort', 3, 100);
 INSERT INTO hotels (id,name,stars,country_id) VALUES (101,'GoldDragon', 2, 101);

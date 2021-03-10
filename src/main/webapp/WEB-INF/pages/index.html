@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      rel="stylesheet">
 <head>
     <meta charset="UTF-8">
     <title>Hello page</title>
 </head>
 <body>
-     <h2> Hello from start page </h2>
+
+<div th:replace="header"></div>
+     <h3> Hello from start page </h3>
     <a th:href="@{country/all}">Go to country list</a>
+
+
+
 </body>
 </html>
