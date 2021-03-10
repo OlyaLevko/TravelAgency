@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -40,7 +41,18 @@ public class CountryController {
     }
     @GetMapping("/all")
     public String getCountryList(Model model){
-        model.addAttribute("countries", countryService.getAll());
+        List<Country> countries=countryService.getAll();
+        List<List<Country>> countriesGroups=new ArrayList<>();
+        if(countries!=null&&!countries.isEmpty()){
+            if(countries.size()<=3){
+                countriesGroups.add(countries);
+            }else {
+                for (int i = 0; i < countries.size() - 3; i += 3) {
+                    countriesGroups.add(countries.subList(i, i + 3));
+                }
+            }
+        }
+        model.addAttribute("countriesGroups",countriesGroups);
         return "country-list";
     }
 
