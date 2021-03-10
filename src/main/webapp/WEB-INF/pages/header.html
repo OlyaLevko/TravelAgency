@@ -1,31 +1,76 @@
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="en">
 <head>
     <style>
+
         .header{
             width:100%;
-            height:10%;
-            background:darkseagreen;
+            height:20%;
+            background-image: url("https://images.photowall.com/products/59504/mountain-view-1.jpg?h=699&q=85");
             position:sticky;
             top: 0;
         }
         .header-font{
             text-decoration: blink;
-            font-size: large;
-            color: silver;
-            font-weight: 500;
+            font-size: 56px;
+            color: white;
+            font-weight: 1000;
             font-family: Arial;
         }
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
-
-<header class="header">
+<div class = "container-main">
+     <header class="header">
     <a  th:href="@{/}" class="header-font">Travel agency</a>
-    <nav>
-        <a href="/country/all">Countries</a>
-        <a href="/hotels/all">Hotels</a>
-        <a href="/room/{hotel_id}/all/">Rooms</a>
-    </nav>
-    <aside>
-        <a href="/">Sign in</a>
-    </aside>
-</header>
+
+         <nav class = "navbar navbar-expand-lg navbar-dark bg-primary" >
+             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                 <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active">
+                         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" href="/country/all">View room</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" href="/orders/make">Book room</a>
+                     </li>
+                     <div sec:authorize="hasAuthority('MANAGER')" >
+                     <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             Manage
+                         </a>
+                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                             <a class="dropdown-item" href="/users/all">Users</a>
+                             <a class="dropdown-item" href="/orders/all">Orders</a>
+                             <a class="dropdown-item" href="/hotels/add">Add hotels</a>
+                             <a class="dropdown-item" href="/hotels/all">Add rooms</a>
+                         </div>
+                     </li>
+                     </div>
+                     <li class="nav-item dropdown" >
+                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             Profile
+                         </a>
+                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                             <a class="dropdown-item" href="/users/update">Update</a>
+                             <a class="dropdown-item" href="/orders/all">My orders</a>
+                             <div class="dropdown-divider"></div>
+                             <a class="dropdown-item" href="#">Log out</a>
+                         </div>
+                     <li class="nav-item">
+                         <a class="nav-link" href="/login" >Login</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" href="/perform-logout" >Log out</a>
+                     </li>
+
+                 </ul>
+             </div>
+         </nav>
+     </header>
+</div>

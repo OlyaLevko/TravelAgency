@@ -148,7 +148,7 @@ public class HotelRepositoryImpl implements HotelRepository {
     @Override
     public List<Hotel> getByCountry(Long id) {
         Session session = sessionFactory.openSession();
-        List<Hotel> hotels = session.createQuery("select hotel from Hotel hotel where hotel.id = " + id, Hotel.class).getResultList();
+        List<Hotel> hotels = session.createQuery("select hotel from Hotel hotel where hotel.country.id = " + id, Hotel.class).getResultList();
         session.close();
         return hotels;
     }

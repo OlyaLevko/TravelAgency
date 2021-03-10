@@ -1,7 +1,7 @@
-INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (20, 'Nick', 'Green', 'nick@mail.com', '1111', 'MANAGER');
-INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (21, 'Mike', 'Brown', 'mike@mail.com', '2222', 'USER');
-INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (22, 'Luck', 'Grey', 'luck@mail.com', '3333', 'USER');
-INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (23, 'Lucy', 'Perry', 'lucy@mail.com', '4444', 'USER');
+INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (20, 'Nick', 'Green', 'nick@mail.com', '$2a$10$9ctvhHUjI4sAUyUcKoV3p.6FipIvHnAmgdXdW5yoZ5N9MVW7yJ1tC', 'MANAGER');
+INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (21, 'Mike', 'Brown', 'mike@mail.com', '$2a$10$Ml/qm0Zh3E1DskOMJkweS.MFVpPSNTKREj/F9xQUOAchNzB49v3cO', 'USER');
+INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (22, 'Luck', 'Grey', 'luck@mail.com', '$2a$10$MfB4ICp90aVCA09D3QGRkeYZ8LOMAevaE1LlWqWpqEEmi4KDJYDJi', 'USER');
+INSERT INTO users (id, firstname, lastname, email, password, role_name) VALUES (23, 'Lucy', 'Perry', 'lucy@mail.com', '$2a$10$Cai1mlvytX2aRUY6vBE8A.3qaXYaewOaL1eodQ53HTzvSIi.68lK6', 'USER');
 
 INSERT INTO countries (id,name) VALUES (100,'India');
 INSERT INTO countries (id,name) VALUES (101,'China');
@@ -34,4 +34,5 @@ INSERT INTO orders (id, user_id, hotel_id, number, from_date, to_date, status) V
 INSERT INTO orders (id, user_id, hotel_id, number, from_date, to_date, status) VALUES (34, 21, 102, 103, '2020-08-15', '2020-08-25', 'CANCELED');
 INSERT INTO orders (id, user_id, hotel_id, number, from_date, to_date, status) VALUES (35, 22, 103, 101, '2021-03-13', '2021-03-20', 'ACTIVE');
 INSERT INTO orders (id, user_id, hotel_id, number, from_date, to_date, status) VALUES (36, 23, 100, 102, '2021-04-10', '2021-04-24', 'ACTIVE');
-INSERT INTO orders (id, user_id, hotel_id, number, from_date, to_date, status) VALUES (37, 21, 102, 102, '2021-04-07', '2021-04-11', 'CANCELED');
+INSERT INTO orders (id, user_id, hotel_id, number, from_date, to_date, status) VALUES (37, 22, 100, 102, '2021-05-01', '2021-05-03', 'ACTIVE');
+INSERT INTO orders (id, user_id, hotel_id, number, from_date, to_date, status) VALUES (38, 21, 102, 102, '2021-05-07', '2021-05-11', 'CANCELED');
