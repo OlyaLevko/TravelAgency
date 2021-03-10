@@ -110,5 +110,4 @@ public class RoomServiceImpl implements RoomService {
         }
         return booking;
     }
-
 }

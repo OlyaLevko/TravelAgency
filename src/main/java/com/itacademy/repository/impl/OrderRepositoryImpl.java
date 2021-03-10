@@ -92,7 +92,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public List<Order> getActiveOrdersInHotel(Long id) {
         Session session = sessionFactory.openSession();
-        List<Order> orders = session.createQuery("select * from orders where hotel_id = " + id + " and status like 'ACTIVE'", Order.class).getResultList();
+        List<Order> orders = session.createNativeQuery("select * from orders where hotel_id = " + id + " and status like 'ACTIVE'", Order.class).getResultList();
         session.close();
         return orders;
     }

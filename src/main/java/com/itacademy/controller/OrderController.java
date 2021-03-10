@@ -10,7 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 
 @Controller
@@ -59,17 +62,52 @@ public class OrderController {
         return "redirect:/orders/"+ userId + "/read";
     }
 
-    @GetMapping("{user_id}/add")
-    public String makeOrder(@PathVariable Long user_id, Model model){
-        model.addAttribute("order", new Order());
-        model.addAttribute("user", userService.getById(user_id));
+   @GetMapping("/make")
+    public String chooseCountry(Model model){
         model.addAttribute("countries", countryService.getAll());
-        return "create-order";
+        return "choose-country";
     }
 
-    @PostMapping("{user_id}/add")
-    public String chooseCountry(@ModelAttribute("country") Country country, Model model, @PathVariable String user_id){
-        model.addAttribute("hotels", hotelService.getByCountry(country.getId()));
-        return "create-order";
+   @GetMapping("/make/{country_id}/hotels")
+   public String chooseHotel(Model model, @PathVariable("country_id") Long countryId){
+       model.addAttribute("hotels", hotelService.getByCountry(countryId));
+       return "choose-hotel";
+   }
+
+   @GetMapping("/make/{country_id}/hotels/{hotel_id}/from")
+    public String chooseDate(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId){
+        return "choose-date";
+   }
+    @PostMapping("/make/{country_id}/hotels/{hotel_id}/from")
+    public String chooseDate(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
+                             @RequestParam("from_date") String fromDate, @RequestParam("to_date") String toDate,
+                             Model model){
+        return "redirect: /orders/make/" + countryId+ "/hotels/" + hotelId + "/from/" + fromDate + "/to/" + toDate;
+
     }
+
+    @GetMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}")
+    public String chooseRoom(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
+                             @PathVariable("from_date") String fromDate, @PathVariable("to_date") String toDate,
+                             Model model){
+        model.addAttribute("rooms",
+                roomService.getAvailableRoomsInHotelById(hotelId,
+                        LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("ddMMMyyyy")),
+                        LocalDate.parse(toDate, DateTimeFormatter.ofPattern("ddMMMyyyy"))));
+        return "choose-room";
+    }
+
+    @GetMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}")
+    public String chooseRoom(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
+                             @PathVariable("from_date") String fromDate, @PathVariable("to_date") String toDate,
+                             Model model, @PathVariable("room_id") Integer room) {
+        model.addAttribute("country", countryService.getById(countryId));
+        model.addAttribute("hotel", hotelService.getById(hotelId));
+        model.addAttribute("from_date", fromDate);
+        model.addAttribute("to_date", toDate);
+        model.addAttribute("room", roomService.getById(new RoomCompositeId(hotelService.getById(hotelId), room)));
+        return "confirm-page";
+    }
+
+
 }

@@ -6,10 +6,12 @@ import com.itacademy.repository.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
@@ -82,5 +84,16 @@ public class UserRepositoryImpl implements UserRepository {
         List<User> users = session.createNativeQuery("select * from users", User.class).getResultList();
         session.close();
         return users;
+    }
+
+
+    @Override
+    public User getByEmail(String email) {
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("select user from User user where user.email = :email");
+        query.setParameter("email", email);
+        User user = (User) query.getSingleResult();
+        session.close();
+        return user;
     }
 }
