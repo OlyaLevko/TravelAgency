@@ -6,8 +6,10 @@
 </head>
 <body>
 <div th:replace="header"></div>
+<div class="container">
 <h1 th:text ="${user.firstName + ' ' + user.lastName + ' list of orders'}"></h1>
-<table border="2">
+    <table class="table table-striped">
+        <thead>
     <tr>
         <th>No.</th>
         <th>Country</th>
@@ -19,6 +21,8 @@
         <th>Total, $</th>
         <th>Status</th>
     </tr>
+        </thead>
+        <tbody>
     <tr th:each="order: ${orders}">
         <td th:text ="${orders.indexOf(order)+1}"></td>
         <td th:text = "${order.getRoom().getId().getHotel().getCountry().getName()}"></td>
@@ -35,6 +39,8 @@
             <a th:href="@{|/orders/${order.getId()}/cancel|}"> Cancel </a>
         </td>
     </tr>
-</table>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
