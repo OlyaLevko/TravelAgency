@@ -21,11 +21,13 @@ public class HotelController {
 
     private HotelService hotelService;
     private CountryService countryService;
+    private HotelDto hotelDtoBean;
 
     @Autowired
-    public HotelController(HotelService hotelService, CountryService countryService) {
+    public HotelController(HotelService hotelService, CountryService countryService,HotelDto hotelDto) {
         this.hotelService = hotelService;
         this.countryService=countryService;
+        this.hotelDtoBean=hotelDto;
     }
 
     @PreAuthorize("hasAuthority('MANAGER')")
@@ -40,7 +42,7 @@ public class HotelController {
         if(result.hasErrors()){
             return "create-hotel";
         }
-        Hotel hotel=HotelDto.convertToHotel(hotelDto);
+        Hotel hotel=hotelDtoBean.convertToHotel(hotelDto);
 
         hotel=hotelService.create(hotel);
         model.addAttribute("hotel",hotel);
@@ -63,17 +65,18 @@ public class HotelController {
     @GetMapping("/{hotel_id}/update")
     public String updateHotelPage(@PathVariable Long hotel_id, Model model ){
         Hotel hotelFromDb=hotelService.getById(hotel_id);
-        model.addAttribute("hotel",hotelFromDb);
+        model.addAttribute("hotel",hotelDtoBean.convertToHotelDto(hotelFromDb));
         return "hotel-update";
     }
 
     @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/update")
-    public String updateHotel(@Validated @ModelAttribute Hotel hotel, BindingResult result,Model model){
+    public String updateHotel(@Validated @ModelAttribute HotelDto hotelDto, BindingResult result,Model model){
         if(result.hasErrors()){
-            log.info("===="+result.toString());
+            log.info("==== update==="+result.toString());
             return "hotel-update";
         }
+        Hotel hotel=hotelDtoBean.convertToHotel(hotelDto);
         hotelService.update(hotel);
         return "redirect:hotels/all";
     }
