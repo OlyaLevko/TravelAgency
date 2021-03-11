@@ -51,9 +51,11 @@ public class HotelDto {
 
     public  Hotel convertToHotel(HotelDto dto){
         Hotel hotel=new Hotel();
+
         hotel.setId(dto.getId());
         hotel.setName(dto.getName());
         hotel.setStars(dto.getStars());
+        hotel.setCountry(countryService.getByCountryName(dto.getCountry()));
 
         return hotel;
     }

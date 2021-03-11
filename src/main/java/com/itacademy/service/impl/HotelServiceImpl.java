@@ -26,8 +26,6 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel create(Hotel hotel) {
-        Country countryFromDb=countryRepository.getByCountryName(hotel.getCountry().getName());
-        hotel.setCountry(countryFromDb);
         return hotelRepository.save(hotel);
     }
 
