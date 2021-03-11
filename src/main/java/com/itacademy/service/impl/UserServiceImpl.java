@@ -54,6 +54,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByEmail(String email) {
-        return userRepository.getByEmail(email);
+            return userRepository.getByEmail(email);
     }
+
+    @Override
+    public User createOrGetByEmail(User user) {
+        try {
+           user = userRepository.save(user);
+        }catch (UnsupportedOperationException e) {
+            user = userRepository.getByEmail(user.getEmail());
+        }
+        return user;
+    }
+
+
 }

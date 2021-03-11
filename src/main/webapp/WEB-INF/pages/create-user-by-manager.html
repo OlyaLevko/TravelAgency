@@ -5,10 +5,10 @@
 <body>
 <div th:replace="header"></div>
 <div>
-    <h1>Create new User</h1>
+    <h1>Please enter user details</h1>
 </div>
 <div>
-    <form   th:object="${user}" method="post">
+    <form   th:object="${user}" th:action="@{|${#request.getRequestURI()}|}" method="post">
         <p>
             <label  for="first-name">First name:</label>
             <input type="text" th:field="*{firstName}" id="first-name"/>
@@ -41,8 +41,12 @@
 
         </p>
         <p>
-            <input type="submit" th:action="@{/users/add}" value="Register"/>
-            <input type="reset" value="Clear"/>
+
+        <div class="col-sm-offset-2 col-sm-6">
+            <a th:href="@{|${#request.getHeader('referer')}|}" class="btn btn-info" role="button" aria-pressed="true">Previous</a>
+        <input class="btn btn-info" type="submit" value="Next"/>
+        </div>
+
         </p>
     </form>
 </div>

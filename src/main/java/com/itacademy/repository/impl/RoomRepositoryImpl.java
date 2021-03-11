@@ -3,9 +3,12 @@ package com.itacademy.repository.impl;
 import com.itacademy.model.Room;
 import com.itacademy.model.RoomCompositeId;
 import com.itacademy.repository.RoomRepository;
+import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -89,5 +92,7 @@ public class RoomRepositoryImpl implements RoomRepository {
                     return query.list();
                 }
         );
+
     }
+
 }

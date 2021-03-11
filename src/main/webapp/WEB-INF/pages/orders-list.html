@@ -33,8 +33,8 @@
         <td th:text = "${order.getStatus()}">
         </td>
         <td th:if = "${order.getStatus().toString().equals('ACTIVE')}">
-            <a th:href="@{|/orders/${order.getId()}/cancel|}"> Cancel </a>
-            <a th:href="@{|/orders/${order.getId()}/done|}"> Mark as done </a>
+            <p><a th:href="@{|/orders/${order.getId()}/cancel|}"> Cancel </a></p>
+           <p><a th:href="@{|/orders/${order.getId()}/done|}"> Mark as done </a></p>
         </td>
     </tr>
 </table>

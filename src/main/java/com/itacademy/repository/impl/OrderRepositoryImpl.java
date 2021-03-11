@@ -1,12 +1,11 @@
 package com.itacademy.repository.impl;
 
 import com.itacademy.exception.NotSuchElementException;
-import com.itacademy.model.Hotel;
-import com.itacademy.model.Order;
-import com.itacademy.model.User;
+import com.itacademy.model.*;
 import com.itacademy.repository.OrderRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 @Repository
@@ -89,13 +89,6 @@ public class OrderRepositoryImpl implements OrderRepository {
         return orders;
     }
 
-    @Override
-    public List<Order> getActiveOrdersInHotel(Long id) {
-        Session session = sessionFactory.openSession();
-        List<Order> orders = session.createNativeQuery("select * from orders where hotel_id = " + id + " and status like 'ACTIVE'", Order.class).getResultList();
-        session.close();
-        return orders;
-    }
 
     @Override
     public List<Order> getActiveOrdersInHotelByRoom(Long hotelId, Integer roomNumber) {
@@ -103,5 +96,19 @@ public class OrderRepositoryImpl implements OrderRepository {
         List<Order> orders = session.createNativeQuery("select * from orders where hotel_id = " + hotelId + " and status like 'ACTIVE' and number = " + roomNumber, Order.class).getResultList();
         session.close();
         return orders;
+    }
+
+    @Override
+    public List<Room> getBookedRoomsInHotel(Long hotelId, LocalDate fromDate, LocalDate toDate) {
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("select o.room from Order o where (o.fromDate > :fromDate and o.fromDate < :toDate or  o.toDate > :fromDate and o.toDate < :toDate) and o.status = :status and o.room.id.hotel.id = :hotelId");
+        query.setParameter("fromDate", fromDate);
+        query.setParameter("toDate", toDate);
+        query.setParameter("hotelId", hotelId);
+        query.setParameter("status", OrderStatus.ACTIVE);
+        List<Room> rooms = query.list();
+        session.close();
+        return rooms;
+
     }
 }

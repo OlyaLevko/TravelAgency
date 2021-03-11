@@ -16,6 +16,5 @@ public interface RoomService extends CrudService<Room, RoomCompositeId>{
 
     boolean checkIfRoomIsAvailable(Long hotelId, Integer roomNumber, LocalDate fromDate, LocalDate toDate);
 
-    Set<LocalDate> getBookedDatesForRoom(Long hotelId, Integer roomNumber);
-
+    Room getRoom(Long hotelId, Integer number);
 }

@@ -35,9 +35,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/users/add").permitAll()
-                .antMatchers("/country/all").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/orders/make").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -47,7 +45,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/perform-logout")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/")
                 .deleteCookies("JSESSIONID");
     }
 

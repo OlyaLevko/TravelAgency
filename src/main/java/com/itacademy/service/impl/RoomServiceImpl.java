@@ -5,9 +5,11 @@ import com.itacademy.model.Room;
 import com.itacademy.model.RoomCompositeId;
 import com.itacademy.repository.OrderRepository;
 import com.itacademy.repository.RoomRepository;
+import com.itacademy.service.HotelService;
 import com.itacademy.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -18,10 +20,12 @@ public class RoomServiceImpl implements RoomService {
 
     private RoomRepository roomRepository;
     private OrderRepository orderRepository;
+    private HotelService hotelService;
 
-    public RoomServiceImpl(RoomRepository roomRepository, OrderRepository orderRepository) {
+    public RoomServiceImpl(RoomRepository roomRepository, OrderRepository orderRepository, HotelService hotelService) {
         this.roomRepository = roomRepository;
         this.orderRepository = orderRepository;
+        this.hotelService = hotelService;
     }
 
     @Override
@@ -60,54 +64,24 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public List<Room> getAvailableRoomsInHotelById(Long hotelId, LocalDate fromDate, LocalDate toDate) {
-        List<Order> orders = orderRepository.getActiveOrdersInHotel(hotelId);
-        if (orders.isEmpty()) return getAllRoomsInHotelById(hotelId);
-        Map<Room, Set<LocalDate>> booking = getMapOfDates(orders);
-        List<Room> available = new ArrayList<>();
-        for (Map.Entry<Room, Set<LocalDate>> room: booking.entrySet()) {
-            for( LocalDate date = fromDate; date.isBefore(toDate.plusDays(1)); date = date.plusDays(1)){
-                if(room.getValue().contains(date)) break;
-                if(date == date.plusDays(1) && !room.getValue().contains(date))
-                    available.add(room.getKey());
-            }
-        }
-        return available;
+        List<Room> list = getAllRoomsInHotelById(hotelId);
+         list.removeAll(orderRepository.getBookedRoomsInHotel(hotelId, fromDate, toDate));
+         return list;
     }
 
     @Override
+    @Transactional
     public boolean checkIfRoomIsAvailable(Long hotelId, Integer roomNumber, LocalDate fromDate, LocalDate toDate) {
-        Set<LocalDate> dates = getBookedDatesForRoom(hotelId, roomNumber);
-        if (dates.isEmpty()) return true;
-        for( LocalDate date = fromDate; date.isBefore(toDate.plusDays(1)); date = date.plusDays(1)){
-            if(dates.contains(date)) return false;
-        }
-        return true;
+        List<Room> list = orderRepository.getBookedRoomsInHotel(hotelId, fromDate, toDate);
+        Room room = getById(new RoomCompositeId(hotelService.getById(hotelId), roomNumber));
+        return !list.contains(room);
     }
 
     @Override
-    public Set<LocalDate> getBookedDatesForRoom(Long hotelId, Integer roomNumber) {
-        List<Order> orders = orderRepository.getActiveOrdersInHotelByRoom(hotelId, roomNumber);
-        Set<LocalDate> dates = new HashSet<>();
-        for (Order order: orders) {
-            for( LocalDate date = order.getFromDate(); date.isBefore(order.getToDate().plusDays(1)); date = date.plusDays(1)){
-                dates.add(date);
-            }
-        }
-        return dates;
+    public Room getRoom(Long hotelId, Integer number) {
+        return getById(new RoomCompositeId(hotelService.getById(hotelId), number));
     }
 
-
-    private Map<Room, Set<LocalDate>> getMapOfDates(List<Order> orders){
-        Map<Room, Set<LocalDate>> booking = new HashMap<>();
-        for (Order order: orders) {
-            for( LocalDate date = order.getFromDate(); date.isBefore(order.getToDate().plusDays(1)); date = date.plusDays(1)){
-                LocalDate finalDate = date;
-                booking.computeIfPresent(order.getRoom(), (k, v)->{ v.add(finalDate);
-                    return v;});
-                booking.putIfAbsent(order.getRoom(), new HashSet<LocalDate>() { {add(finalDate);}});
-            }
-        }
-        return booking;
-    }
 }
