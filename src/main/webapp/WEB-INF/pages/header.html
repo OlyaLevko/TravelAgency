@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+
+    .header-font{
+        text-decoration: blink;
+        font-size: 56px;
+        color: white;
+        font-weight: 1000;
+        font-family: Arial;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+</head>
+<body>
+<div class="page-header" style="background-image: url('https://images.photowall.com/products/59504/mountain-view-1.jpg?h=699&q=85')">
+    <h1 class="header-font">Travel agency</h1>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home <span class="sr-only">(current)</span></a></li>
+                    <li><a href="/country/all">View hotels</a></li>
+                    <li><a href="/orders/make">Book room</a></li>
+                    <li class="dropdown" th:if = "${#authorization.expression('hasAuthority(''MANAGER'')')}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Manager <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/users/all">Users</a></li>
+                            <li><a href="/orders/all">Orders</a></li>
+                            <li><a href="/hotels/add">Add hotel</a></li>
+                            <li><a href="/users/add">Add user</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" th:if = "${#authorization.expression('hasAuthority(''USER'')')}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:if = "${#authorization.expression('hasAuthority(''USER'')')}" th:href="@{|/users/${@userServiceImpl.getByEmail(#authentication.getName()).getId()}/update|}">Update</a></li>
+                            <li><a th:if = "${#authorization.expression('hasAuthority(''USER'')')}" th:href="@{|/orders/${@userServiceImpl.getByEmail(#authentication.getName()).getId()}/read|}">Orders</a></li>
+                        </ul>
+                    </li>
+                    <li th:unless = "${#authorization.expression('hasAuthority(''USER'')')}"><a href="/login">Login</a></li>
+                    <li th:if = "${#authorization.expression('hasAuthority(''USER'')')}"><a href="/perform-logout">Log out</a></li>
+
+                </ul>
+                <p th:if = "${#authorization.expression('hasAuthority(''USER'')')}" class="navbar-text navbar-right">Signed in as
+                    <a th:if = "${#authorization.expression('hasAuthority(''USER'')')}" th:href="@{|/orders/${@userServiceImpl.getByEmail(#authentication.getName()).getId()}/read|}" class="navbar-link" th:text ="${@userServiceImpl.getByEmail(#authentication.getName()).getFirstName()}"/></p>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+</body>
+</html>
