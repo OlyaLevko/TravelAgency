@@ -3,6 +3,7 @@ package com.itacademy.repository;
 import com.itacademy.model.Room;
 import com.itacademy.model.RoomCompositeId;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface RoomRepository extends CrudRepository<Room, RoomCompositeId>{

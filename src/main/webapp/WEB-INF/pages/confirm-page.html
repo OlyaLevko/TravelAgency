@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <head>
     <meta charset="UTF-8">
-    <title>Confirm </title>
+    <title>Confirm</title>
 </head>
 <body>
+<div th:replace="header"></div>
+<div class="container-main">
+    <div class="panel panel-default">
 
+        <div class="panel-heading">Book information</div>
+
+        </div>
+
+
+    <ul class="list-group">
+        <a href="#" class="list-group-item disabled" th:text="${'Firstname: ' + user.getFirstName()}">
+        </a>
+        <a href="#" class="list-group-item" th:text="${'Lastname: ' + user.getLastName()}"></a>
+        <a href="#" class="list-group-item" th:text="${'Country: ' + country.getName()}"></a>
+        <a href="#" class="list-group-item" th:text="${'Hotel: ' + hotel.getName()}"></a>
+        <a href="#" class="list-group-item" th:text="${'Room: ' + room.getId().getNumber()}"></a>
+        <a href="#" class="list-group-item" th:text="${'Type: ' + room.getType()}"></a>
+        <a href="#" class="list-group-item" th:text="${'Period: ' + from_date + ' - ' + to_date}"></a>
+        <a href="#" class="list-group-item" th:text="${'Total : ' + room.getPrice() + '*' + days + ' = ' + room.getPrice()*days}"></a>
+
+    </ul>
+    </div>
+<div class="col-sm-offset-2 col-sm-6">
+    <a th:href="@{|${#request.getHeader('referer')}|}" class="btn btn-info" role="button" aria-pressed="true">Previous</a>
+    <a th:href="@{|${#request.getRequestURI()}/confirm|}" class="btn btn-info" role="button" aria-pressed="true">Confirm</a>
+</div>
+</div>
 </body>
 </html>

@@ -8,10 +8,11 @@
     <title>Rooms list</title>
 </head>
 <body>
+<div>
 <div th:replace="header"></div>
+</div>
 <h2> Please choose room</h2>
 <div>
-
     <div class="container!=null">
         <div th:if="rooms">
             <table class="table table-striped" border="2">
@@ -23,7 +24,7 @@
                 </tr>
                 <tr  th:each="room, iStat: ${rooms}" >
                     <td th:text="${iStat.index + 1}" />
-                    <td th:text="${room.id.number}"  th:href="@{|${#request.getRequestURI()}/room/${room.id.number}|}"/>
+                    <td><a th:text="${room.id.number}"  th:href="@{|${#request.getRequestURI()}/room/${room.id.number}/user|}"></a></td>
                     <td th:text="${room.type}"/>
                     <td th:text="${room.price}"/>
 
