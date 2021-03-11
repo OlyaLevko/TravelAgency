@@ -33,6 +33,9 @@ public class Hotel{
     @Max(value = 5)
     private Integer stars;
 
+    @Column(name="picture_url",length = 2050)
+    private String picture_url;
+
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;

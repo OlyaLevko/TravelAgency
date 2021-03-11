@@ -5,6 +5,7 @@ import com.itacademy.model.Hotel;
 import com.itacademy.service.CountryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,16 +29,39 @@ public class CountryController {
         this.countryService = countryService;
     }
 
+    @PreAuthorize("hasAnyAuthority('USER','MANAGER') ")
     @GetMapping("/{id}/hotels")
     public String countryAllHotelsList(@PathVariable Long id, Model model){
         Country country=countryService.getById(id);
         log.info("============ "+country.toString());
 
         List<Hotel> hotels=countryService.getAllHotelsInCountry(country.getName());
+        List<List<Hotel>> hotelGroups=new ArrayList<>();
+        if(hotels!=null&&!hotels.isEmpty()){
+            if(hotels.size()<=3){
+                hotelGroups.add(hotels);
+            }else {
+                for (int i = 0; i < hotels.size() - 3; i += 3) {
+                    hotelGroups.add(hotels.subList(i, i + 3));
+                }
+            }
+        }
+
+        model.addAttribute("country", country);
+        model.addAttribute("hotelGroups", hotelGroups);
+        return "country-hotels-list";
+    }
+    @PreAuthorize("hasAuthority('MANAGER')")
+    @GetMapping("/{id}/hotels/manager")
+    public String countryAllHotelsListForManager(@PathVariable Long id, Model model){
+        Country country=countryService.getById(id);
+        log.info("============ "+country.toString()+"from Manager page");
+
+        List<Hotel> hotels=countryService.getAllHotelsInCountry(country.getName());
 
         model.addAttribute("country", country);
         model.addAttribute("hotels", hotels);
-        return "country-hotels-list";
+        return "country-hotels-manager";
     }
     @GetMapping("/all")
     public String getCountryList(Model model){
@@ -56,6 +80,7 @@ public class CountryController {
         return "country-list";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/{country_id}/delete")
     public String deleteCountry(@PathVariable Long country_id){
         countryService.delete(country_id);

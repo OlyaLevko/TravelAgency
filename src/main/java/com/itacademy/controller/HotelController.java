@@ -5,17 +5,18 @@ import com.itacademy.model.Hotel;
 import com.itacademy.model.Type;
 import com.itacademy.service.CountryService;
 import com.itacademy.service.HotelService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/hotels")
+@Slf4j
 public class HotelController {
 
     private HotelService hotelService;
@@ -27,13 +28,18 @@ public class HotelController {
         this.countryService=countryService;
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/add")
     public String add(Model model){
         return "create-hotel";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/add")
     public String add(@Validated @ModelAttribute HotelDto hotelDto, BindingResult result, Model model ){
+        if(result.hasErrors()){
+            return "create-hotel";
+        }
         Hotel hotel=HotelDto.convertToHotel(hotelDto);
 
         hotel=hotelService.create(hotel);
@@ -42,17 +48,18 @@ public class HotelController {
         return "create-room";
     }
 
-    @GetMapping("/all")
-    public String allHotels(Model model){
-        List<Hotel> hotels=hotelService.getAll();
-        model.addAttribute("hotels", hotels);
-        return "hotels-list";
-    }
+//    @GetMapping("/all")
+//    public String allHotels(Model model){
+//        List<Hotel> hotels=hotelService.getAll();
+//        model.addAttribute("hotels", hotels);
+//        return "hotels-list";
+//    }
     @GetMapping("/{hotel_id}")
     public String hotelsRoomsList(@PathVariable Long hotel_id){
         return "redirect:/room/"+hotel_id+"/all";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/{hotel_id}/update")
     public String updateHotelPage(@PathVariable Long hotel_id, Model model ){
         Hotel hotelFromDb=hotelService.getById(hotel_id);
@@ -60,15 +67,18 @@ public class HotelController {
         return "hotel-update";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/update")
     public String updateHotel(@Validated @ModelAttribute Hotel hotel, BindingResult result,Model model){
         if(result.hasErrors()){
-            return "hotel/update";
+            log.info("===="+result.toString());
+            return "hotel-update";
         }
         hotelService.update(hotel);
         return "redirect:hotels/all";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/{hotel_id}/delete")
     public String deleteHotel(@PathVariable Long hotel_id, Model model){
         hotelService.delete(hotel_id);

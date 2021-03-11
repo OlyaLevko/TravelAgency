@@ -5,6 +5,7 @@ import com.itacademy.model.*;
 import com.itacademy.service.HotelService;
 import com.itacademy.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/room")
@@ -28,13 +31,27 @@ public class RoomController {
         this.roomDtoBean = roomDtoBean;
     }
 
+    @PreAuthorize("hasAnyAuthority('MANAGER','USER')")
     @GetMapping("/{hotel_id}/all")
     public String getAllRooms(@PathVariable Long hotel_id, Model model){
+        List<Room> rooms=roomService.getAllRoomsInHotelById(hotel_id);
+        List<List<Room>> roomGroups=new ArrayList<>();
+        if(rooms!=null&&!rooms.isEmpty()){
+            if(rooms.size()<=3){
+                roomGroups.add(rooms);
+            }else {
+                for (int i = 0; i < rooms.size() - 3; i += 3) {
+                    roomGroups.add(rooms.subList(i, i + 3));
+                }
+            }
+        }
+
         model.addAttribute("hotel",hotelService.getById(hotel_id) );
-        model.addAttribute("rooms",roomService.getAllRoomsInHotelById(hotel_id));
+        model.addAttribute("roomGroups", roomGroups);
         return "rooms-list";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/create/{hotel_id}")
     public String createRoomForm(@PathVariable Long hotel_id, Model model){
         model.addAttribute("types", Type.values());
@@ -42,6 +59,7 @@ public class RoomController {
         return "create-room";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/create")
     public String createRoom(@Validated @ModelAttribute RoomDto roomDto, BindingResult result, Model model){
 
@@ -59,6 +77,7 @@ public class RoomController {
         return "create-room";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/{number}/update/{hotel_id}")
     public String updateRoomForm(@PathVariable Integer number,
                                  @PathVariable Long hotel_id, Model model){
@@ -70,6 +89,7 @@ public class RoomController {
         return "room-update";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/update")
     public String updateRoom(@Valid @ModelAttribute RoomDto roomDto, BindingResult result, Model model){
         if(result.hasErrors()){
@@ -80,6 +100,7 @@ public class RoomController {
         return "redirect:/room/"+room.getId().getHotel().getId()+"/all";
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PostMapping("/delete")
     public String roomDelete(@RequestParam Long hotel_id,
                              @RequestParam Integer number){

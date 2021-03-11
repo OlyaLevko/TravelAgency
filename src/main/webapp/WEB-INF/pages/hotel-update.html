@@ -14,6 +14,7 @@
 </div>
 <div>
     <form class="form-horizontal" method="post" th:action="@{/hotels/update}" th:object="${hotel}">
+
         <div class="form-group">
             <label class="col-sm-2 control-label" for="title">Title:</label>
             <div class="col-sm-8">
@@ -33,8 +34,13 @@
             <input class="btn btn-info" type="submit" value="Update"/>
             <input class="btn btn" type="reset" value="Clear"/>
         </div>
+        <input  th:field="*{id}" type="hidden"/>
+        <input  th:field="*{country}" type="hidden"/>
+<!--        <input  th:field="*{rooms}" type="hidden"/>-->
     </form>
 </div>
+
 <a th:href="@{|/room/${hotel.id}/all|}">Go to Rooms List</a>
+
 </body>
 </html>

@@ -26,6 +26,9 @@ public class Room {
     @Enumerated(value = EnumType.STRING)
     private Type type;
 
+    @Column(name = "picture_url",length = 2050)
+    private String picture_url;
+
     @Column(name="price")
     @NotNull
     @Range(min=0)

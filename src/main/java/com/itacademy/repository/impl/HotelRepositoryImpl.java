@@ -96,10 +96,12 @@ public class HotelRepositoryImpl implements HotelRepository {
     public Hotel update(Hotel hotel) {
         Session session=null;
         Hotel hotelFromDb=null;
+        log.info("======"+ hotel.getName()+" "+ hotel.getStars()+ " " +hotel.getCountry().getName());
         try{
             session = sessionFactory.openSession();
             hotelFromDb=getById(hotel.getId());
             if(hotelFromDb!=null){
+                log.info("====start setting fields======");
                 session.getTransaction().begin();
                 hotelFromDb.setName(hotel.getName());
                 hotelFromDb.setStars(hotel.getStars());
@@ -113,7 +115,7 @@ public class HotelRepositoryImpl implements HotelRepository {
             session.getTransaction().rollback();
             log.info("=====update hotelFromDb method failed====");
             log.info(e.getMessage());
-            throw new RepositoryException("persistent layer failed at delete() method");
+            throw new RepositoryException("persistent layer failed at update() method");
         }finally {
             if(session != null) {
                 session.close();

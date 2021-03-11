@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-
+import java.util.Locale;
 
 
 @Controller
@@ -91,8 +91,8 @@ public class OrderController {
                              Model model){
         model.addAttribute("rooms",
                 roomService.getAvailableRoomsInHotelById(hotelId,
-                        LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy")),
-                        LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy"))));
+                        LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),
+                        LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH))));
         return "choose-room";
     }
 
@@ -131,8 +131,8 @@ public class OrderController {
         model.addAttribute("from_date", fromDate);
         model.addAttribute("to_date", toDate);
         model.addAttribute("room", roomService.getById(new RoomCompositeId(hotelService.getById(hotelId), room)));
-        model.addAttribute("days",  LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy"))
-                .until(  LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy")),ChronoUnit.DAYS));
+        model.addAttribute("days",  LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH))
+                .until(  LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),ChronoUnit.DAYS));
         return "confirm-page";
     }
 
@@ -144,8 +144,8 @@ public class OrderController {
         Order order = new Order();
         order.setRoom(room1);
         order.setUser(userService.getById(userId));
-        order.setFromDate(LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy")));
-        order.setToDate(LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy")));
+        order.setFromDate(LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy",Locale.ENGLISH)));
+        order.setToDate(LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy",Locale.ENGLISH)));
         orderService.create(order);
         return "redirect: /orders/" + userId + "/read";
     }

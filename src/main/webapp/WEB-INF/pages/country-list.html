@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
       rel="stylesheet">
@@ -10,35 +10,18 @@
 <body>
 <div th:replace="header"></div>
 
+<!--<button sec:authorize="hasRole('MANAGER')"><a></a></button>   todo add delete button -->
+
 <div class="=container">
-<div class="row" th:each ="list:${countriesGroups}">
-    <div class="col-sm-4" th:each="country:${list}">
-        <img th:src="${country.pictureUrl}" th:alt="${country.name}" width="300" height="200" class="img-rounded">
-        <h4><a th:href="@{|/country/${country.id}/hotels|}" >
-            Go to hotels in <span  th:text="${country.name}"></span></a></h4>
+    <div class="row" th:each ="list:${countriesGroups}">
+        <div class="col-sm-4" th:each="country:${list}">
+            <img th:src="${country.pictureUrl}" th:alt="${country.name}" width="300" height="200" class="img-rounded">
+            <h2><a th:href="@{|/country/${country.id}/hotels|}" >
+                Go to hotels in <span  th:text="${country.name}"></span></a>
+            </h2>
+        </div>
     </div>
 </div>
-</div>
 
-<!--<table class="table table-striped" border="2">-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>No.</th>-->
-<!--        <th>Id</th>-->
-<!--        <th>Name</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr th:each="country, iStat: ${countries}">-->
-<!--        <td th:text="${iStat.index + 1}" />-->
-<!--        <td th:text="${country.id}"  />-->
-<!--        <td th:text="${country.name}"/>-->
-<!--        <td >-->
-<!--            <a th:href="@{|/country/${country.id}/hotels|}" > Go to hotels list</a>-->
-<!--        </td>-->
-
-<!--    </tr>-->
-<!--    </tbody>-->
-</table>
 </body>
 </html>
