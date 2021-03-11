@@ -2,6 +2,7 @@ package com.itacademy.controller;
 
 import com.itacademy.model.*;
 import com.itacademy.service.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +42,7 @@ public class OrderController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize(value = "hasAuthority('MANAGER')")
     public String getAll(Model model){
         model.addAttribute("orders", orderService.getAll());
         model.addAttribute("days", ChronoUnit.DAYS);
@@ -48,6 +50,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}/cancel")
+    @PreAuthorize(value = "hasAuthority('MANAGER') or #id == @userServiceImpl.getByEmail(principal.username).getId()")
     public String cancelOrder(@PathVariable Long id) {
         orderService.cancel(id);
         Long userId = orderService.getById(id).getUser().getId();
@@ -55,6 +58,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}/done")
+    @PreAuthorize(value = "hasAuthority('MANAGER')")
     public String doneOrder(@PathVariable Long id) {
         orderService.done(id);
         Long userId = orderService.getById(id).getUser().getId();

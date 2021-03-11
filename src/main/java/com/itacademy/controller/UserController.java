@@ -3,6 +3,7 @@ package com.itacademy.controller;
 import com.itacademy.model.Role;
 import com.itacademy.model.User;
 import com.itacademy.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,12 +38,14 @@ public class UserController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize(value = "hasAuthority('MANAGER')")
     public String allUsers(Model model){
         model.addAttribute("users", userService.getAll());
         return "users-list";
     }
 
     @GetMapping("/{id}/update")
+    @PreAuthorize(value = "hasAuthority('MANAGER') or #id == @userServiceImpl.getByEmail(principal.username).getId()")
     public String updateUser(@PathVariable Long id, Model model){
         model.addAttribute("roles", Role.values());
         model.addAttribute("user", userService.getById(id));
@@ -56,10 +59,11 @@ public class UserController {
             return "update-user";
         }
         userService.update(user);
-        return "redirect:/users/all";
+        return "redirect:/";
     }
 
     @GetMapping("/{id}/delete")
+    @PreAuthorize(value = "hasAuthority('MANAGER')")
     public String deleteUser(@PathVariable Long id){
         userService.delete(id);
         return "redirect:/users/all";

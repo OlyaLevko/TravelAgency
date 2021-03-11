@@ -10,24 +10,21 @@
 </head>
 <body>
 <div th:replace="header"></div>
-<div class="container-main">
-    <div class="panel panel-default">
+<div class="container">
 
-        <div class="panel-heading">Book information</div>
-
-        </div>
+    <h1> Book information</h1>
 
 
     <ul class="list-group">
         <a href="#" class="list-group-item disabled" th:text="${'Firstname: ' + user.getFirstName()}">
         </a>
-        <a href="#" class="list-group-item" th:text="${'Lastname: ' + user.getLastName()}"></a>
-        <a href="#" class="list-group-item" th:text="${'Country: ' + country.getName()}"></a>
-        <a href="#" class="list-group-item" th:text="${'Hotel: ' + hotel.getName()}"></a>
-        <a href="#" class="list-group-item" th:text="${'Room: ' + room.getId().getNumber()}"></a>
-        <a href="#" class="list-group-item" th:text="${'Type: ' + room.getType()}"></a>
-        <a href="#" class="list-group-item" th:text="${'Period: ' + from_date + ' - ' + to_date}"></a>
-        <a href="#" class="list-group-item" th:text="${'Total : ' + room.getPrice() + '*' + days + ' = ' + room.getPrice()*days}"></a>
+        <a href="#" class="list-group-item disabled" th:text="${'Lastname: ' + user.getLastName()}"></a>
+        <a href="#" class="list-group-item disabled" th:text="${'Country: ' + country.getName()}"></a>
+        <a href="#" class="list-group-item disabled" th:text="${'Hotel: ' + hotel.getName()}"></a>
+        <a href="#" class="list-group-item disabled" th:text="${'Room: ' + room.getId().getNumber()}"></a>
+        <a href="#" class="list-group-item disabled" th:text="${'Type: ' + room.getType()}"></a>
+        <a href="#" class="list-group-item disabled" th:text="${'Period: ' + from_date + ' - ' + to_date}"></a>
+        <a href="#" class="list-group-item disabled" th:text="${'Total : ' + room.getPrice() + '*' + days + ' = ' + room.getPrice()*days}"></a>
 
     </ul>
     </div>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-      rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Rooms list</title>
@@ -11,11 +12,11 @@
 <div>
 <div th:replace="header"></div>
 </div>
-<h2> Please choose room</h2>
-<div>
-    <div class="container!=null">
-        <div th:if="rooms">
-            <table class="table table-striped" border="2">
+<div class="container">
+
+        <div th:unless="${rooms.isEmpty()}">
+            <h2> Please choose room</h2>
+            <table class="table table-striped" >
                 <tr>
                     <th>No.</th>
                     <th>Number</th>
@@ -32,10 +33,10 @@
 
             </table>
         </div>
-        <div th:if="rooms==null">
-            <h2>Rooms list is empty !</h2>
+        <div th:if="${rooms.isEmpty()}">
+            <h2>There are not available rooms</h2>
         </div>
-    </div>
+    <a th:href="@{|${#request.getHeader('referer')}|}" style="text-underline-offset: inherit">&#8592Back to date choice</a>
 
 </div>
 </body>

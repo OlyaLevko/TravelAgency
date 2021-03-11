@@ -1,20 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>List of Users</title>
 </head>
 <body>
 <div th:replace="header"></div>
+<div class="container">
 <h1>List of users</h1>
 
-    <table border="2">
+    <table class="table table-striped">
+        <thead>
         <tr>
             <th>No.</th>
             <th>User</th>
             <th>E-mail</th>
-            <th colspan="4" >Options</th>
+            <th colspan="2" >Options</th>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="user: ${users}">
             <td th:text ="${users.indexOf(user)+1}"></td>
             <td>
@@ -24,11 +32,13 @@
             <td th:text = "${user.getEmail()}"></td>
             <td ><a  th:href="@{|/users/${user.getId()}/update|}">Update</a></td>
             <td><a  th:href="@{|/users/${user.getId()}/delete|}">Delete</a></td>
-            <td><a  th:href="@{|/orders/${user.getId()}/add|}">Make order</a></td>
         </tr>
+        </tbody>
     </table>
-<form th:action="@{/users/add}" method="get">
-    <input type="submit" value="Add user"/>
-</form>
+</div>
+
+    <div class="col-sm-offset-2 col-sm-6">
+        <a href="/users/add" class="btn btn-info" role="button" aria-pressed="true">Add user</a>
+    </div>
 </body>
   
