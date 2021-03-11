@@ -4,47 +4,58 @@
 </head>
 <body>
 <div th:replace="header"></div>
+<div class="container">
 <div>
     <h1>Please enter user details</h1>
 </div>
 <div>
-    <form   th:object="${user}" th:action="@{|${#request.getRequestURI()}|}" method="post">
-        <p>
-            <label  for="first-name">First name:</label>
-            <input type="text" th:field="*{firstName}" id="first-name"/>
-        </p>
-        <p>
-            <span class="ui-state-error-text" th:if="${#fields.hasErrors('firstName')}" th:text="${#fields.errors('firstName')}" style="color: red" ></span>
-        </p>
-        <p>
-            <label for="last-name">Last name:</label>
-            <input type="text"  th:field="*{lastName}" id="last-name"/>
-        </p>
-        <p>
-            <span class="ui-state-error-text" th:if="${#fields.hasErrors('lastName')}" th:text="${#fields.errors('lastName')}" style="color: red" ></span>
-        </p>
-        <p>
+    <form class = "form-horizontal"  th:object="${user}" th:action="@{|${#request.getRequestURI()}|}" method="post">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="first-name">First name:</label>
+            <div class="col-sm-10">
+            <input class="form-control" type="text" th:field="*{firstName}" id="first-name"/>
+            <p>
+                <span class="ui-state-error-text" th:if="${#fields.hasErrors('firstName')}" th:text="${#fields.errors('firstName')}" style="color: red" ></span>
+            </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label  class="col-sm-2 control-label" for="last-name">Last name:</label>
+            <div class="col-sm-10">
+            <input class="form-control" type="text"  th:field="*{lastName}" id="last-name"/>
+            </p>
+            <p>
+                <span class="ui-state-error-text" th:if="${#fields.hasErrors('lastName')}" th:text="${#fields.errors('lastName')}" style="color: red" ></span>
+            </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="email">E-mail:</label>
+            <div class="col-sm-10">
+            <input class="form-control" type="email" th:field="*{email}" id="email"/>
+            </p>
+            <p>
+                <span class="ui-state-error-text" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email')}" style="color: red"></span>
 
-            <label for="email">E-mail:</label>
-            <input type="email" th:field="*{email}" id="email"/>
-        </p>
-        <p>
-            <span class="ui-state-error-text" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email')}" style="color: red"></span>
+            </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">Password:</label>
+            <div class="col-sm-10">
+            <input class="form-control" type="password" th:field="*{password}" id="password"/>
+            </p>
+            <p>
+                <span class="ui-state-error-text" th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password')}" style="color: red" ></span>
 
-        </p>
-        <p>
-            <label for="password">Password:</label>
-            <input type="password" th:field="*{password}" id="password"/>
-        </p>
-        <p>
-            <span class="ui-state-error-text" th:if="${#fields.hasErrors('password')}" th:text="${#fields.errors('password')}" style="color: red" ></span>
-
-        </p>
-        <p>
-
+            </p>
+            </div>
+        </div>
+        <div class="form-group">
         <div class="col-sm-offset-2 col-sm-6">
             <a th:href="@{|${#request.getHeader('referer')}|}" class="btn btn-info" role="button" aria-pressed="true">Previous</a>
         <input class="btn btn-info" type="submit" value="Next"/>
+        </div>
         </div>
 
         </p>

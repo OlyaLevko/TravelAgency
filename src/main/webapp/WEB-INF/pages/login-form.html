@@ -1,5 +1,8 @@
 
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <head>
     <style>
 
@@ -18,9 +21,7 @@
             font-family: Arial;
         }
     </style>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <meta charset="utf-8">
     <title>Login Customer</title>
 </head>
@@ -30,29 +31,33 @@
     <header class="header">
         <a  th:href="@{/}" class="header-font">Travel agency</a>
     </header>
-    <h2> Login </h2>
-    <form class="form-horizontal" method="post" action="/login">
-
-        <div class="form-group">
-
-            <label class="col-sm-2 control-label" for="username">Username:</label>
-            <div class="col-sm-6">
-            <input type="text" id="username" name="username"  placeholder="Username" required>
-            </div>
+    <div class = "container">
+    <h2 style="margin-right:150px; position: relative "> Login </h2>
+    <form method="post" action="/login">
+        <div th:if="${param.error}" style="color: red">
+            Invalid username or password!
         </div>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label" for="password">Password:</label>
-            <div class="col-sm-6">
-            <input type="password" id="password" name="password"  placeholder="Password" required>
-            </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input class = "form-control" type="text" id="username" name="username"  placeholder="Username" required>
         </div>
+
+        <br>
+
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input class = "form-control" type="password" id="password" name="password"  placeholder="Password" required>
+        </div>
+
+        <br>
+
         <div class="col-sm-offset-2 col-sm-6">
             <button class="btn btn-info" type="submit">Sign in</button>
         <a href="/users/add" class="btn btn-info" role="button" aria-pressed="true">New User</a>
         </div>
     </form>
-
+    </div>
 
 </div>
 </body>
