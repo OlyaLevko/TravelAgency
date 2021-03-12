@@ -105,6 +105,7 @@ public class HotelRepositoryImpl implements HotelRepository {
                 session.getTransaction().begin();
                 hotelFromDb.setName(hotel.getName());
                 hotelFromDb.setStars(hotel.getStars());
+                hotelFromDb.setPicture_url(hotel.getPicture_url());
 
                 session.saveOrUpdate(hotelFromDb);
 

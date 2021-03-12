@@ -31,6 +31,8 @@ public class HotelDto {
     @Max(value = 5,message = "value must be in range from 1 to 5")
     private Integer stars;
 
+    private String picture_url;
+
 
     private  CountryService countryService;
 
@@ -56,6 +58,7 @@ public class HotelDto {
         hotel.setName(dto.getName());
         hotel.setStars(dto.getStars());
         hotel.setCountry(countryService.getByCountryName(dto.getCountry()));
+        hotel.setPicture_url(dto.getPicture_url());
 
         return hotel;
     }
@@ -66,6 +69,7 @@ public class HotelDto {
         hotelDto.setName(hotel.getName());
         hotelDto.setCountry(hotel.getCountry().getName());
         hotelDto.setStars(hotel.getStars());
+        hotelDto.setPicture_url(hotel.getPicture_url());
         return hotelDto;
     }
 }
