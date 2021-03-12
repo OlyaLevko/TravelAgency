@@ -37,7 +37,7 @@
         </td>
         <td th:if = "${order.getStatus().toString().equals('ACTIVE')}">
             <p><a th:href="@{|/orders/${order.getId()}/cancel|}"> Cancel </a></p>
-            <p><a th:href="@{|/orders/${order.getId()}/done|}"> Mark as done </a></p>
+            <p><a th:if = "${#authorization.expression('hasAuthority(''MANAGER'')')}" th:href="@{|/orders/${order.getId()}/done|}"> Mark as done </a></p>
         </td>
     </tr>
         </tbody>
