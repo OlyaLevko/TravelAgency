@@ -12,7 +12,7 @@
 <h2>Update hotel  "<span th:text="${hotel.name}"/>"</h2>
 
 <button>
-    <a th:href="/room/create/${hotel.id}">Add new room</a>
+    <a th:href="@{|/room/create/${hotel.id}|}">Add new room</a>
 </button>
 
 </div>
