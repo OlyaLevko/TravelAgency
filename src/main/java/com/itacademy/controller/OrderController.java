@@ -34,6 +34,7 @@ public class OrderController {
     }
 
     @GetMapping("/{user_id}/read")
+    @PreAuthorize(value = "hasAuthority('MANAGER') or #user_id == @userServiceImpl.getByEmail(authentication.name).getId()")
     public String getOrderByUser(@PathVariable Long user_id, Model model){
         model.addAttribute("orders", orderService.getByUserId(user_id));
         model.addAttribute("user", userService.getById(user_id));
@@ -50,7 +51,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}/cancel")
-    @PreAuthorize(value = "hasAuthority('MANAGER') or #id == @userServiceImpl.getByEmail(principal.username).getId()")
+    @PreAuthorize(value = "hasAuthority('MANAGER') or #user_id == @userServiceImpl.getByEmail(authentication.name).getId()")
     public String cancelOrder(@PathVariable Long id) {
         orderService.cancel(id);
         Long userId = orderService.getById(id).getUser().getId();

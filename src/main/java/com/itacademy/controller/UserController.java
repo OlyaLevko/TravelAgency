@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/update")
-    @PreAuthorize(value = "hasAuthority('MANAGER') or #id == @userServiceImpl.getByEmail(principal.username).getId()")
+    @PreAuthorize(value = "hasAuthority('MANAGER') or #id == @userServiceImpl.getByEmail(authentication.name).getId()")
     public String updateUser(@PathVariable Long id, Model model){
         model.addAttribute("roles", Role.values());
         model.addAttribute("user", userService.getById(id));
