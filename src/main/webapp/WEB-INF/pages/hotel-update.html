@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -10,6 +10,10 @@
 <div th:replace="header"></div>
 
 <h2>Update hotel  "<span th:text="${hotel.name}"/>"</h2>
+
+<button>
+    <a th:href="/room/create/${hotel.id}">Add new room</a>
+</button>
 
 </div>
 <div>
