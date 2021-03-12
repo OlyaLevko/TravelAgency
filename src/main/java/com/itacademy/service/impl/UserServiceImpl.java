@@ -25,12 +25,7 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-//        try {
             return userRepository.save(user);
-//        } catch (UnsupportedOperationException e){
-//            throw new UnsupportedOperationException(e.getMessage());
-//        }
-
     }
 
     @Override
@@ -40,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
         return userRepository.update(user);
     }
 
