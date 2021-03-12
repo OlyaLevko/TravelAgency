@@ -9,14 +9,16 @@
 </head>
 <body>
 <div th:replace="header"></div>
-    <h2>Hotels in the Country </h2>
+
     <div>
-        <h2 th:text="${country.getName()}"></h2> <br/>
+        <h2 th:text="${country.getName()}"></h2>
+        <br/>
 
         <button sec:authorize="hasAuthority('MANAGER')">
             <a th:href="@{|/country/${country.id}/hotels/manager|}">Open manager page</a>
         </button>
 
+        <br/>
 
         <div class="=container">
             <div class="row" th:each ="hotels:${hotelGroups}">
@@ -24,9 +26,9 @@
 
                     <img th:src="${hotel.picture_url}" th:alt="${hotel.name}" width="300" height="200" class="img-rounded">
 
-                    <h2><a th:href="@{|/room/${hotel.id}/all|}" >
-                        Go to rooms in <span  th:text="${hotel.name}"></span></a>
-                    </h2>
+                    <h3><a th:href="@{|/room/${hotel.id}/all|}" >
+                        Choose rooms in <span  th:text="${hotel.name}"></span></a>
+                    </h3>
                 </div>
             </div>
 

@@ -9,24 +9,29 @@
 </head>
 <body>
 <div th:replace="header"></div>
-    <h2> Rooms list </h2>
+
     <button sec:authorize="hasAuthority('MANAGER')">  <a th:href="@{|/room/create/${hotel.id}|}"> Create new room </a></button>
+
+    <br>
     <div >
 
         <h2>
             List of rooms in the " <span th:text="${hotel.name}"/> "
         </h2>
 
+        <br/>
         <div class="=container">
             <div class="row" th:each ="rooms:${roomGroups}">
                 <div class="col-sm-4" th:each="room:${rooms}">
 
                     <img th:src="${room.picture_url}" th:alt="${room.id.number}" width="300" height="200" class="img-rounded">
 
-                    <h2><a th:href="@{|/orders/make|}" >
+                    <h3>     <span th:text="${room.type}"></span></h3>
+                    <h3><a th:href="@{|/orders/make|}" >
                         Go to make an order > </span></a>
-                    </h2>
+                    </h3>
                 </div>
+                <br/>
             </div>
         </div>
 

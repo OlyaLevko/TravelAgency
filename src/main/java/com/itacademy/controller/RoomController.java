@@ -31,7 +31,6 @@ public class RoomController {
         this.roomDtoBean = roomDtoBean;
     }
 
-    @PreAuthorize("hasAnyAuthority('MANAGER','USER')")
     @GetMapping("/{hotel_id}/all")
     public String getAllRooms(@PathVariable Long hotel_id, Model model){
         List<Room> rooms=roomService.getAllRoomsInHotelById(hotel_id);

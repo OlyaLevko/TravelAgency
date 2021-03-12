@@ -29,7 +29,6 @@ public class CountryController {
         this.countryService = countryService;
     }
 
-    @PreAuthorize("hasAnyAuthority('USER','MANAGER') ")
     @GetMapping("/{id}/hotels")
     public String countryAllHotelsList(@PathVariable Long id, Model model){
         Country country=countryService.getById(id);
