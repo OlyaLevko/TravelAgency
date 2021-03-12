@@ -27,14 +27,23 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Order save(Order order) {
-        try (Session session = sessionFactory.openSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
             session.getTransaction().begin();
             session.persist(order);
             session.getTransaction().commit();
         } catch (ConstraintViolationException e) {
+            if (session != null)
+                session.getTransaction().rollback();
             throw new UnsupportedOperationException(e.getConstraintViolations().stream().map(ConstraintViolation::getMessageTemplate).collect(Collectors.joining(", ")));
         }catch (PersistenceException e) {
+            if (session != null)
+                session.getTransaction().rollback();
             throw new UnsupportedOperationException(e.getMessage());
+        }finally {
+            if (session != null)
+                session.close();
         }
         return order;
     }
@@ -48,19 +57,31 @@ public class OrderRepositoryImpl implements OrderRepository {
             session.delete(order);
             session.getTransaction().commit();
             session.close();
-        } else throw new NotSuchElementException("There are not user with id " + id);
+        } else{
+            session.close();
+            throw new NotSuchElementException("There are not user with id " + id);
+        }
     }
 
     @Override
     public Order update(Order order) {
-        try (Session session = sessionFactory.openSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
             session.getTransaction().begin();
             session.saveOrUpdate(order);
             session.getTransaction().commit();
         } catch (ConstraintViolationException e) {
+            if (session != null)
+                session.getTransaction().rollback();
             throw new UnsupportedOperationException(e.getConstraintViolations().stream().map(ConstraintViolation::getMessageTemplate).collect(Collectors.joining(", ")));
         }catch (PersistenceException e) {
+            if (session != null)
+                session.getTransaction().rollback();
             throw new UnsupportedOperationException(e.getLocalizedMessage());
+        }finally {
+            if (session != null)
+                session.close();
         }
         return order;
     }

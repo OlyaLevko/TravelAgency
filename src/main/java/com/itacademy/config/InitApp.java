@@ -23,4 +23,5 @@ public class InitApp extends AbstractAnnotationConfigDispatcherServletInitialize
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+
 }

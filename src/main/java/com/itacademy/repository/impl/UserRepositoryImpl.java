@@ -5,17 +5,14 @@ import com.itacademy.model.User;
 import com.itacademy.repository.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Repository
@@ -32,14 +29,19 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
-        try (Session session = sessionFactory.openSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
             session.getTransaction().begin();
             session.persist(user);
             session.getTransaction().commit();
-        } catch (ConstraintViolationException e) {
-            throw new UnsupportedOperationException(e.getConstraintViolations().stream().map(ConstraintViolation::getMessageTemplate).collect(Collectors.joining(", ")));
         }catch (PersistenceException e) {
-            throw new UnsupportedOperationException(e.getMessage());
+            if (session != null)
+            session.getTransaction().rollback();
+            throw new UnsupportedOperationException(e.getCause().getCause().getLocalizedMessage());
+        } finally {
+            if (session != null)
+                session.close();
         }
         return user;
     }
@@ -53,19 +55,27 @@ public class UserRepositoryImpl implements UserRepository {
                 session.delete(user);
                 session.getTransaction().commit();
                 session.close();
-            } else throw new NotSuchElementException("There are not user with id " + id);
+            } else {
+                session.close();
+                throw new NotSuchElementException("There are not user with id " + id);
+            }
     }
 
     @Override
     public User update(User user) {
-        try (Session session = sessionFactory.openSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
             session.getTransaction().begin();
             session.update(user);
             session.getTransaction().commit();
-        } catch (ConstraintViolationException e) {
-            throw new UnsupportedOperationException(e.getConstraintViolations().stream().map(ConstraintViolation::getMessageTemplate).collect(Collectors.joining(", ")));
         }catch (PersistenceException e) {
-            throw new UnsupportedOperationException();
+            if (session != null)
+                session.getTransaction().rollback();
+            throw new UnsupportedOperationException(e.getCause().getCause().getLocalizedMessage());
+        }finally {
+            if (session != null)
+                session.close();
         }
         return user;
     }
