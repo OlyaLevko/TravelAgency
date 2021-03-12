@@ -1,6 +1,8 @@
 package com.itacademy.repository.impl;
 
 import com.itacademy.exception.NotSuchElementException;
+import com.itacademy.model.Order;
+import com.itacademy.model.OrderStatus;
 import com.itacademy.model.User;
 import com.itacademy.repository.UserRepository;
 import org.hibernate.Session;
@@ -105,5 +107,16 @@ public class UserRepositoryImpl implements UserRepository {
         User user = (User) query.getSingleResult();
         session.close();
         return user;
+    }
+
+    @Override
+    public List<Order> getActiveOrdersForUser(Long id) {
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("select o from Order o where user.id = :id and status = :status");
+        query.setParameter("id", id);
+        query.setParameter("status", OrderStatus.ACTIVE);
+        List<Order> orders = query.getResultList();
+        session.close();
+        return orders;
     }
 }

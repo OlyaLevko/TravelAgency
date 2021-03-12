@@ -30,7 +30,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-            userRepository.delete(id);
+        if(!userRepository.getActiveOrdersForUser(id).isEmpty())
+            throw new UnsupportedOperationException("User has active orders. Please cancel or mark as done all user's active orders.");
+
+        userRepository.delete(id);
     }
 
     @Override
