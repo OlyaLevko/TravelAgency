@@ -11,7 +11,9 @@
 <div th:replace="header"></div>
 
 <h2>New Hotel registration </h2>
-<form class="form-horizontal" action="/hotels/add" method="post">
+
+
+<form class="form-horizontal" action="/hotels/add" method="post" th:object="${hotelDto}">
     <table class="table table-striped" border="2">
         <tbody>
         <tr>
@@ -20,6 +22,9 @@
             </td>
             <td>
                 <input type="text"  id="name" name="name"/>
+                <p>
+                    <span class="ui-state-error-text" th:if="${#fields.hasErrors('name')}" th:text="${#fields.errors('name')}" style="color: red" ></span>
+                </p>
             </td>
 
         </tr>
@@ -29,6 +34,9 @@
             </td>
             <td>
                 <input type="text" id="country" name="country" />
+                <p>
+                    <span class="ui-state-error-text" th:if="${#fields.hasErrors('country')}" th:text="${#fields.errors('country')}" style="color: red" ></span>
+                </p>
             </td>
         </tr>
         <tr>
@@ -36,7 +44,10 @@
                 <label for="stars">Stars:</label>
             </td>
             <td>
-                <input type="text" id="stars" name="stars"/>
+                <input type="number" id="stars" name="stars"/>
+                <p>
+                    <span class="ui-state-error-text" th:if="${#fields.hasErrors('stars')}" th:text="${#fields.errors('stars')}" style="color: red" ></span>
+                </p>
             </td>
         </tr>
 

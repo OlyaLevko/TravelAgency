@@ -24,11 +24,11 @@ public class HotelDto {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "country must not be blank")
     String country;
 
-    @Min(value = 1)
-    @Max(value = 5)
+    @Min(value = 1,message = "value must be in range from 1 to 5")
+    @Max(value = 5,message = "value must be in range from 1 to 5")
     private Integer stars;
 
 
@@ -62,7 +62,8 @@ public class HotelDto {
 
     public static HotelDto convertToHotelDto(Hotel hotel){
         HotelDto hotelDto=new HotelDto();
-        hotelDto.setName(hotelDto.getName());
+        hotelDto.setId(hotel.getId());
+        hotelDto.setName(hotel.getName());
         hotelDto.setCountry(hotel.getCountry().getName());
         hotelDto.setStars(hotel.getStars());
         return hotelDto;

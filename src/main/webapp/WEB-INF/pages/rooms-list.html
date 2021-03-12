@@ -12,7 +12,11 @@
 
     <button sec:authorize="hasAuthority('MANAGER')">  <a th:href="@{|/room/create/${hotel.id}|}"> Create new room </a></button>
 
-    <br>
+    <br/>
+
+
+    <br/>
+    <br/>
     <div >
 
         <h2>
@@ -30,6 +34,8 @@
                     <h3><a th:href="@{|/orders/make|}" >
                         Go to make an order > </span></a>
                     </h3>
+                    <button sec:authorize="hasAuthority('MANAGER')">
+                        <a th:href="@{|/room/${room.id.number}/update/${hotel.id}|}"> Update room </a></button>
                 </div>
                 <br/>
             </div>

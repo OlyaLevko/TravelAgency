@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/hotels")
 @Slf4j
@@ -31,8 +33,17 @@ public class HotelController {
     }
 
     @PreAuthorize("hasAuthority('MANAGER')")
+    @GetMapping("/all")
+    public String allHotels(Model model){
+        List<Hotel> hotels=hotelService.getAll();
+        model.addAttribute("hotels", hotels);
+        return "hotels-list";
+    }
+
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/add")
     public String add(Model model){
+        model.addAttribute("hotelDto",new HotelDto());
         return "create-hotel";
     }
 
@@ -50,12 +61,6 @@ public class HotelController {
         return "create-room";
     }
 
-//    @GetMapping("/all")
-//    public String allHotels(Model model){
-//        List<Hotel> hotels=hotelService.getAll();
-//        model.addAttribute("hotels", hotels);
-//        return "hotels-list";
-//    }
     @GetMapping("/{hotel_id}")
     public String hotelsRoomsList(@PathVariable Long hotel_id){
         return "redirect:/room/"+hotel_id+"/all";
@@ -78,7 +83,7 @@ public class HotelController {
         }
         Hotel hotel=hotelDtoBean.convertToHotel(hotelDto);
         hotelService.update(hotel);
-        return "redirect:hotels/all";
+        return "redirect:/hotels/all";
     }
 
     @PreAuthorize("hasAuthority('MANAGER')")

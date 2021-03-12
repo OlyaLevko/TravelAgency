@@ -13,15 +13,15 @@
 
 <h2>New room creation in hotel " <span th:text="${hotel.name}"/> " </h2>
 
-<!--====/${hotel.id}==== todo experiments with th:value and url-->
-<form class="form-horizontal" th:action="@{|/room/create|}" method="post" >
+<br/>
+
+<form class="form-horizontal" th:action="@{/room/create}" method="post" th:object="${roomDto}" >
     <input type="hidden" id="hotel_id" name="hotel_id" th:value="${hotel.id}"/>
 
     <div class="form-group">
         <label class="col-sm-2 control-label" for="number">Number:</label>
         <div class="col-sm-6">
             <input class="form-control" type="text" id="number" name="number"/>
-<!--            <small class="form-text text-muted" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>-->
         </div>
     </div>
 
@@ -29,7 +29,7 @@
         <label class="col-sm-2 control-label" for="price">Price:</label>
         <div class="col-sm-6">
             <input class="form-control" type="text" id="price" name="price"/>
-<!--            <small class="form-text text-muted" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>-->
+<!--            <small class="form-text text-muted" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>-->
         </div>
     </div>
 
@@ -38,8 +38,15 @@
         <div class="col-sm-6" >
 
             <select class="form-control" name="type" id="type">
-                <option th:each="type : ${types}" th:value="${type.toString()}" th:text="${type.toString()}"/>
+                <option th:each="type : ${types}" th:value="${type}" th:text="${type}"/>
             </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="link">Picture link:</label>
+        <div class="col-sm-6">
+            <input class="form-control" type="text" id="link" name="picture_url"/>
         </div>
     </div>
 
@@ -50,5 +57,6 @@
 
 </form>
 <button><a th:href="@{|/room/${hotel.id}/all|}">Return to rooms list</a></button>
+<br/>
 </body>
 </html>

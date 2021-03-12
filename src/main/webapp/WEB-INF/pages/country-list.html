@@ -10,7 +10,11 @@
 <body>
 <div th:replace="header"></div>
 
-<!--<button sec:authorize="hasRole('MANAGER')"><a></a></button>   todo add delete button -->
+<button sec:authorize="hasAuthority('MANAGER')">
+    <a href="/hotels/all">Open manager page</a>
+</button>
+<br/>
+<br/>
 
 <div class="=container">
     <div class="row" th:each ="list:${countriesGroups}">

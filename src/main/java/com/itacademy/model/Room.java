@@ -32,7 +32,7 @@ public class Room {
     @Column(name="price")
     @NotNull
     @Range(min=0)
-    private Long price; // in cents
+    private Long price;
 
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE)

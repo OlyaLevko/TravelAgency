@@ -17,14 +17,18 @@ import javax.validation.constraints.NotNull;
 @Component
 public class RoomDto {
 
-    @NotNull
     private Long hotel_id;
-    @NotNull
+
     private Integer number;
+
     private Type type;
-    @NotNull
-    @Range()
+
+    @NotNull(message = "must be not null")
+    @Range
     private Long price;
+
+    private String picture_link;
+
 
     private HotelService hotelService;
 
@@ -42,8 +46,9 @@ public class RoomDto {
         Room room =new Room();
         Hotel hotel=hotelService.getById(roomDto.getHotel_id());
         room.setId(new RoomCompositeId(hotel, roomDto.number));
-        room.setType(roomDto.type);
-        room.setPrice(roomDto.price);
+        room.setPrice(roomDto.getPrice());
+        room.setType(roomDto.getType());
+        room.setPicture_url(roomDto.getPicture_link());
         return room;
     }
 
@@ -53,6 +58,7 @@ public class RoomDto {
         roomDto.setNumber(room.getId().getNumber());
         roomDto.setPrice(room.getPrice());
         roomDto.setType(room.getType());
+        roomDto.setPicture_link(room.getPicture_url());
         return roomDto;
     }
 
@@ -88,4 +94,11 @@ public class RoomDto {
         this.price = price;
     }
 
+    public void setPicture_link(String picture_link) {
+        this.picture_link = picture_link;
+    }
+
+    public String getPicture_link() {
+        return picture_link;
+    }
 }

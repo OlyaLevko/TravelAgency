@@ -54,6 +54,7 @@ public class RoomController {
     @GetMapping("/create/{hotel_id}")
     public String createRoomForm(@PathVariable Long hotel_id, Model model){
         model.addAttribute("types", Type.values());
+        model.addAttribute("roomDto", new RoomDto());
         model.addAttribute("hotel",hotelService.getById(hotel_id));
         return "create-room";
     }
@@ -63,16 +64,16 @@ public class RoomController {
     public String createRoom(@Validated @ModelAttribute RoomDto roomDto, BindingResult result, Model model){
 
         if(result.hasErrors()){
-            model.addAttribute("types", Type.values());
+//            model.addAttribute("types", Type.values());
             return "create-room";
         }
         Hotel hotel=hotelService.getById(roomDto.getHotel_id());
 
         Room room =this.roomDtoBean.convertToRoom(roomDto);
-//        room.setId(new RoomCompositeId(hotel,roomDto.getNumber()));
         roomService.create(room);
         model.addAttribute("types", Type.values());
         model.addAttribute("hotel",hotel);
+        model.addAttribute("roomDto", new RoomDto());
         return "create-room";
     }
 

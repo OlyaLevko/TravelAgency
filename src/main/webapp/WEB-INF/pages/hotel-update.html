@@ -18,14 +18,14 @@
         <div class="form-group">
             <label class="col-sm-2 control-label" for="title">Title:</label>
             <div class="col-sm-8">
-                <input id="title" th:field="*{name}" type="text"/>
+                <input id="title" th:field="*{name}" type="text" th:value="${name}"/>
                 <small class="form-text text-muted" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="stars">Stars:</label>
             <div class="col-sm-8">
-                <input class="form-control" id="stars" th:field="*{stars}" type="text"/>
+                <input class="form-control" id="stars" th:field="*{stars}" type="text" th:value="*{stars}"/>
                 <small class="form-text text-muted" th:if="${#fields.hasErrors('stars')}" th:errors="*{stars}"></small>
             </div>
         </div>

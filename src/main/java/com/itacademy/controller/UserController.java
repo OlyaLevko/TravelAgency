@@ -34,7 +34,7 @@ public class UserController {
            return "create-user";
         }
         userService.create(user);
-        return "redirect:/";
+        return "redirect:/country/all";
     }
 
     @GetMapping("/all")

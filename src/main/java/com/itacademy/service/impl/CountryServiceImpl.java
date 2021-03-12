@@ -27,7 +27,13 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Country getByCountryName(String name) {
-        return countryRepository.getByCountryName(name);
+        Country countryFromDb=countryRepository.getByCountryName(name);
+        if(countryFromDb==null){
+            Country country=new Country();
+            country.setName(name);
+            countryFromDb=create(country);
+        }
+        return countryFromDb;
     }
 
     @Override
@@ -52,7 +58,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public List<Hotel> getAllHotelsInCountry(String countryName) {
-//        Country countryFromDb=countryRepository.getByCountryName(countryName);
+
         return countryRepository.getAllHotelsInCountry(countryName);
     }
 }
