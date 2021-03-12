@@ -51,7 +51,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}/cancel")
-    @PreAuthorize(value = "hasAuthority('MANAGER') or #user_id == @userServiceImpl.getByEmail(authentication.name).getId()")
+    @PreAuthorize(value = "hasAuthority('MANAGER') or @orderServiceImpl.getById(#id).getUser().getId() == @userServiceImpl.getByEmail(authentication.name).getId()")
     public String cancelOrder(@PathVariable Long id) {
         orderService.cancel(id);
         Long userId = orderService.getById(id).getUser().getId();

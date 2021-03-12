@@ -35,6 +35,7 @@ public class RoomController {
     public String getAllRooms(@PathVariable Long hotel_id, Model model){
         List<Room> rooms=roomService.getAllRoomsInHotelById(hotel_id);
         List<List<Room>> roomGroups=new ArrayList<>();
+        System.out.println(rooms.size());
         if(rooms!=null&&!rooms.isEmpty()){
             if(rooms.size()<=3){
                 roomGroups.add(rooms);
@@ -42,9 +43,10 @@ public class RoomController {
                 for (int i = 0; i < rooms.size() - 3; i += 3) {
                     roomGroups.add(rooms.subList(i, i + 3));
                 }
+                roomGroups.add(rooms.subList(rooms.size() - 3, rooms.size() ));
             }
         }
-
+        System.out.println(roomGroups.size());
         model.addAttribute("hotel",hotelService.getById(hotel_id) );
         model.addAttribute("roomGroups", roomGroups);
         return "rooms-list";
