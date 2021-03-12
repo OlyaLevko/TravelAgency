@@ -1,5 +1,6 @@
 package com.itacademy.service.impl;
 
+import com.itacademy.exception.DateFormatException;
 import com.itacademy.exception.NotSuchElementException;
 import com.itacademy.model.Order;
 import com.itacademy.model.OrderStatus;
@@ -33,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order create(Order order) {
         if(order.getFromDate().isAfter(order.getToDate()))
-            throw new IllegalArgumentException("Start date must be until end date.");
+            throw new DateFormatException("Start date must be until end date.");
         if(!roomService.checkIfRoomIsAvailable(order.getRoom().getId().getHotel().getId(),order.getRoom().getId().getNumber(),order.getFromDate(), order.getToDate()))
             throw new UnsupportedOperationException("Room is not available for period " +
                     order.getFromDate() + " + " + order.getToDate());
