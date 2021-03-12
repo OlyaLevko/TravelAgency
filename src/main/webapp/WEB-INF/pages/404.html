@@ -14,11 +14,11 @@
 <body style="background-image: url('https://media.istockphoto.com/vectors/horizontal-vector-illustration-of-an-empty-sky-blue-coloured-grungy-vector-id1139678803?k=6&m=1139678803&s=612x612&w=0&h=Hjurj_v2s7hu7SkifU91g-NpzMDNCUZzrNQOCxznbe8=')">
 <div class="container">
     <div class="page-header">
-        <h1  style="text-align: center">400 <small>Bad request</small></h1>
-        <p th:text="${message}" class="message-font" ></p>
+        <h1  style="text-align: center">404 <small>Not found</small></h1>
+        <p th:text="${'Page with url ' + #request.getRequestURI() + 'not found. Please, check if you enter the url correctly.' }" class="message-font" ></p>
     </div>
 
- <a href = "/" style="text-align: center">Home</a>
+    <a href = "/" style="text-align: center">Home</a>
 
 </div>
 </body>
