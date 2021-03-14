@@ -40,7 +40,11 @@ public class CountryController {
             if(hotels.size()<=3){
                 hotelGroups.add(hotels);
             }else {
-                for (int i = 0; i < hotels.size() - 3; i += 3) {
+                for (int i = 0; i <= hotels.size() - 3; i += 3) {
+                    if(hotels.size()-i+3 <3){
+                        hotelGroups.add(hotels.subList(i,hotels.size()));
+                        break;
+                    }
                     hotelGroups.add(hotels.subList(i, i + 3));
                 }
             }
@@ -70,7 +74,11 @@ public class CountryController {
             if(countries.size()<=3){
                 countriesGroups.add(countries);
             }else {
-                for (int i = 0; i < countries.size() - 3; i += 3) {
+                for (int i = 0; i <= countries.size() - 3; i += 3) {
+                    if(countries.size()-i+3 <3){
+                        countriesGroups.add(countries.subList(i,countries.size()));
+                        break;
+                    }
                     countriesGroups.add(countries.subList(i, i + 3));
                 }
             }

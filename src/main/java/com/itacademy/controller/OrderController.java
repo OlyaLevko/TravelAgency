@@ -13,6 +13,8 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -78,10 +80,26 @@ public class OrderController {
        return "choose-hotel";
    }
 
+//   ========================================
+
+    @GetMapping("/make/{country_id}/hotels/{hotel_id}/room/{room_number}/choose")
+    public String chooseBookingDateForRoom(@PathVariable("country_id") Long countryId,
+                                       @PathVariable("hotel_id") Long hotelId,
+                                       @PathVariable("room_number") Integer room_number,
+                                       Model model){
+        model.addAttribute("country_id",countryId);
+        model.addAttribute("hotel_id",hotelId);
+        model.addAttribute("room_number",room_number);
+        return "choose-date";
+    }
+
+//    ==========================================
+
    @GetMapping("/make/{country_id}/hotels/{hotel_id}/from")
     public String chooseDate(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId){
         return "choose-date";
    }
+
     @PostMapping("/make/{country_id}/hotels/{hotel_id}/from")
     public String chooseDate(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
                              @RequestParam("from_date") String fromDate, @RequestParam("to_date") String toDate,
@@ -94,12 +112,16 @@ public class OrderController {
     public String chooseRoom(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
                              @PathVariable("from_date") String fromDate, @PathVariable("to_date") String toDate,
                              Model model){
-        model.addAttribute("rooms",
-                roomService.getAvailableRoomsInHotelById(hotelId,
-                        LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),
-                        LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH))));
+        List<Room> rooms=roomService.getAvailableRoomsInHotelById(hotelId,
+                LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),
+                LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)));
+
+        model.addAttribute("rooms",rooms);
         return "choose-room";
     }
+
+
+
 
     @GetMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user")
     public String addUser(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
@@ -126,24 +148,76 @@ public class OrderController {
         return "redirect:/orders/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user/" + user.getId();
     }
 
-    @GetMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user/{user_id}")
-    public String chooseRoom(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
-                             @PathVariable("from_date") String fromDate, @PathVariable("to_date") String toDate,
-                             Model model, @PathVariable("room_id") Integer room, @PathVariable("user_id") Long userId) {
-        model.addAttribute("user", userService.getById(userId));
-        model.addAttribute("country", countryService.getById(countryId));
-        model.addAttribute("hotel", hotelService.getById(hotelId));
-        model.addAttribute("from_date", fromDate);
-        model.addAttribute("to_date", toDate);
-        model.addAttribute("room", roomService.getById(new RoomCompositeId(hotelService.getById(hotelId), room)));
-        model.addAttribute("days",  LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH))
-                .until(  LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),ChronoUnit.DAYS));
-        return "confirm-page";
+//    @GetMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user/{user_id}")
+//    public String chooseRoom(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
+//                             @PathVariable("from_date") String fromDate, @PathVariable("to_date") String toDate,
+//                             Model model, @PathVariable("room_id") Integer room, @PathVariable("user_id") Long userId) {
+//        model.addAttribute("user", userService.getById(userId));
+//        model.addAttribute("country", countryService.getById(countryId));
+//        model.addAttribute("hotel", hotelService.getById(hotelId));
+//        model.addAttribute("from_date", fromDate);
+//        model.addAttribute("to_date", toDate);
+//        model.addAttribute("room", roomService.getById(new RoomCompositeId(hotelService.getById(hotelId), room)));
+//        model.addAttribute("days",  LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH))
+//                .until(  LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),ChronoUnit.DAYS));
+//        return "confirm-page";
+//    }
+
+//    =====================================
+
+    @GetMapping("/make/{country_id}/hotels/{hotel_id}/room/{room_number}/user/{user_id}")
+    public String checkIfRoomIsAvailable(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
+                                         @RequestParam("from_date") String fromDate, @RequestParam("to_date") String toDate,
+                                         @PathVariable("room_number") Integer room_number,
+                                         @PathVariable("user_id") Long user_id,
+                                         Model model){
+
+        Room checkedRoom=roomService.getById(new RoomCompositeId(hotelService.getById(hotelId),room_number));
+
+        if(roomService.checkIfRoomIsAvailable(hotelId,room_number,
+                LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),
+                LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH))))
+        {
+
+            model.addAttribute("user", userService.getById(user_id));
+            model.addAttribute("country", countryService.getById(countryId));
+            model.addAttribute("hotel", hotelService.getById(hotelId));
+            model.addAttribute("from_date", fromDate);
+            model.addAttribute("to_date", toDate);
+            model.addAttribute("room",  checkedRoom);
+            model.addAttribute("days",  LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH))
+                    .until(  LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),ChronoUnit.DAYS));
+
+            return "confirm-page";
+
+        }else {
+            List<Room> rooms=roomService.getAllRoomsInHotelById(hotelId);
+            List<List<Room>> roomGroups=new ArrayList<>();
+            if(rooms!=null&&!rooms.isEmpty()){
+                if(rooms.size()<=3){
+                    roomGroups.add(rooms);
+                }else {
+                    for (int i = 0; i < rooms.size() - 3; i += 3) {
+                        roomGroups.add(rooms.subList(i, i + 3));
+                    }
+                }
+            }
+
+            model.addAttribute("hotel",hotelService.getById(hotelId) );
+            model.addAttribute("roomGroups", roomGroups);
+            model.addAttribute("country_id",countryId);
+            model.addAttribute("message", "Sory, but room "+room_number+"is not available from: "+fromDate+", to: "+toDate);
+            return "rooms-list";
+//            return "redirect: /room/"+hotelId+"/all";
+        }
     }
 
-    @GetMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user/{user_id}/confirm")
+//    ================================================/
+
+    @GetMapping("/make/{country_id}/hotels/{hotel_id}/room/{room_id}/user/{user_id}/confirm")
     public String ConfirmOrder(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
-                               @PathVariable("from_date") String fromDate, @PathVariable("to_date") String toDate, @PathVariable("room_id") Integer room,
+                               @RequestParam("from_date") String fromDate, @RequestParam("to_date") String toDate,
+                               @PathVariable("room_id") Integer room,
                                @PathVariable("user_id") Long userId){
         Room room1 = roomService.getRoom(hotelId, room);
         Order order = new Order();

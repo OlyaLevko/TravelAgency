@@ -50,7 +50,7 @@
     </form>
 </div>
 
-<a th:href="@{|/room/${hotel.id}/all|}">Go to Rooms List</a>
+<a th:href="@{|/room/${hotel.id}/all|(country_id=${hotel.country.id})}">Go to Rooms List</a>
 
 </body>
 </html>

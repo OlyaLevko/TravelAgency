@@ -28,7 +28,10 @@
     </div>
 <div class="col-sm-offset-2 col-sm-6">
     <a th:href="@{|${#request.getHeader('referer')}|}" class="btn btn-info" role="button" aria-pressed="true">Previous</a>
-    <a th:href="@{|${#request.getRequestURI()}/confirm|}" class="btn btn-info" role="button" aria-pressed="true">Confirm</a>
+    <a th:href="@{|/orders/make/${country_id}/hotels/${hotel_id}/room/${room.id.number}/user/${user_id}/confirm|(from_date=${from_date},to_date=${to_date})}"
+       class="btn btn-info" role="button" aria-pressed="true">
+        Confirm
+    </a>
 </div>
 </div>
 </body>

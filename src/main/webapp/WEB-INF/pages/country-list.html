@@ -10,7 +10,7 @@
 <body>
 <div th:replace="header"></div>
 
-<button sec:authorize="hasAuthority('MANAGER')">
+<button class="btn btn-info" sec:authorize="hasAuthority('MANAGER')">
     <a href="/hotels/all">Open manager page</a>
 </button>
 <br/>

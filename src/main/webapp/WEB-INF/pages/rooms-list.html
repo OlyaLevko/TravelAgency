@@ -10,32 +10,41 @@
 <body>
 <div th:replace="header"></div>
 
-    <button sec:authorize="hasAuthority('MANAGER')">  <a th:href="@{|/room/create/${hotel.id}|}"> Create new room </a></button>
+    <button sec:authorize="hasAuthority('MANAGER')" class="btn btn-info">
+        <a th:href="@{|/room/create/${hotel.id}|}">
+            Create new room
+        </a>
+    </button>
 
-    <br/>
-    <br/>
-    <br/>
-    <div >
+    <div>
+        <div align="center">
+            <h2>
+                List of rooms in the " <span th:text="${hotel.name}"/> "
+            </h2>
+        </div>
 
-        <h2>
-            List of rooms in the " <span th:text="${hotel.name}"/> "
-        </h2>
+        <div th:if="message!=null">
+            <h2 th:text="${message}"></h2>
+        </div>
 
-        <br/>
         <div class="=container">
             <div class="row" th:each ="rooms:${roomGroups}">
                 <div class="col-sm-4" th:each="room:${rooms}">
 
+                    <h2><span>  </span> No: <span th:text="${room.id.number}"> </span></h2>
                     <img th:src="${room.picture_url}" th:alt="${room.id.number}" width="300" height="200" class="img-rounded">
 
-                    <h3>     <span th:text="${room.type}"></span></h3>
+                    <h3 th:text="${room.type}" > </h3>
 
-<!--                    <h3><a th:href="@{|/orders/make|}" >-->
-<!--                        Go to make an order </span></a>-->
-<!--                    </h3>-->
-                    <button sec:authorize="hasAuthority('MANAGER')">
+                    <h3>
+                        <a th:href="@{|/orders/make/${country_id}/hotels/${room.id.hotel.id}/room/${room.id.number}/choose|}" >
+                            Go to make an order </span>
+                        </a>
+                    </h3>
+                    <button sec:authorize="hasAuthority('MANAGER')" class="btn btn-info">
                         <a th:href="@{|/room/${room.id.number}/update/${hotel.id}|}"> Update room </a></button>
                 </div>
+                <br/>
                 <br/>
             </div>
         </div>

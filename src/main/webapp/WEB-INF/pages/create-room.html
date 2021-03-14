@@ -56,7 +56,9 @@
     </div>
 
 </form>
-<button><a th:href="@{|/room/${hotel.id}/all|}">Return to rooms list</a></button>
+<button class="btn btn-info">
+    <a th:href="@{|/room/${hotel.id}/all|(country_id=${country.id})}">Return to rooms list</a>
+</button>
 <br/>
 </body>
 </html>

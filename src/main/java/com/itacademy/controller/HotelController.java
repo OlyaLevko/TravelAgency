@@ -37,6 +37,7 @@ public class HotelController {
     public String allHotels(Model model){
         List<Hotel> hotels=hotelService.getAll();
         model.addAttribute("hotels", hotels);
+//        model.addAttribute("country_id",);
         return "hotels-list";
     }
 

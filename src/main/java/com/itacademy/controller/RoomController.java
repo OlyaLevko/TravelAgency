@@ -32,30 +32,38 @@ public class RoomController {
     }
 
     @GetMapping("/{hotel_id}/all")
-    public String getAllRooms(@PathVariable Long hotel_id, Model model){
+    public String getAllRooms(@PathVariable Long hotel_id,
+                              @RequestParam Long country_id, Model model){
         List<Room> rooms=roomService.getAllRoomsInHotelById(hotel_id);
         List<List<Room>> roomGroups=new ArrayList<>();
         if(rooms!=null&&!rooms.isEmpty()){
             if(rooms.size()<=3){
                 roomGroups.add(rooms);
             }else {
-                for (int i = 0; i < rooms.size() - 3; i += 3) {
+                int k=rooms.size()%3;
+                for (int i = 0; i <= rooms.size()-3 ; i += 3) {
                     roomGroups.add(rooms.subList(i, i + 3));
+                    if(i==rooms.size()-3){
+                        roomGroups.add(rooms.subList(i,i+k));
+                    }
                 }
             }
         }
 
         model.addAttribute("hotel",hotelService.getById(hotel_id) );
         model.addAttribute("roomGroups", roomGroups);
+        model.addAttribute("country_id",country_id);
         return "rooms-list";
     }
 
     @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/create/{hotel_id}")
     public String createRoomForm(@PathVariable Long hotel_id, Model model){
+        Hotel hotel=hotelService.getById(hotel_id);
         model.addAttribute("types", Type.values());
         model.addAttribute("roomDto", new RoomDto());
-        model.addAttribute("hotel",hotelService.getById(hotel_id));
+        model.addAttribute("hotel",hotel);
+        model.addAttribute("country", hotel.getCountry());
         return "create-room";
     }
 
@@ -74,6 +82,7 @@ public class RoomController {
         model.addAttribute("types", Type.values());
         model.addAttribute("hotel",hotel);
         model.addAttribute("roomDto", new RoomDto());
+        model.addAttribute("country", hotel.getCountry());
         return "create-room";
     }
 
@@ -97,7 +106,7 @@ public class RoomController {
         }
         Room room= roomDtoBean.convertToRoom(roomDto);
         roomService.update(room);
-        return "redirect:/room/"+room.getId().getHotel().getId()+"/all";
+        return "redirect:/room/"+room.getId().getHotel().getId()+"/all?country_id="+room.getId().getHotel().getCountry().getId();
     }
 
     @PreAuthorize("hasAuthority('MANAGER')")

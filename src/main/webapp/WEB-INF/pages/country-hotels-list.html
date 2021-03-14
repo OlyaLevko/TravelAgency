@@ -11,53 +11,30 @@
 <div th:replace="header"></div>
 
     <div>
-        <h2 th:text="${country.getName()}"></h2>
-        <br/>
+        <div align="center">
+            <h2 th:text="${country.getName()}"></h2>
+            <br/>
+        </div>
 
-        <button sec:authorize="hasAuthority('MANAGER')">
+        <button sec:authorize="hasAuthority('MANAGER')"
+                class="btn btn-info">
             <a th:href="@{|/country/${country.id}/hotels/manager|}">Open manager page</a>
         </button>
 
-        <br/>
-        <br/>
-
         <div class="=container">
             <div class="row" th:each ="hotels:${hotelGroups}">
+
                 <div class="col-sm-4" th:each="hotel:${hotels}">
 
+                    <h3>Stars: <span th:text="${hotel.stars}"></span></h3>
                     <img th:src="${hotel.picture_url}" th:alt="${hotel.name}" width="300" height="200" class="img-rounded">
 
-                    <h3><a th:href="@{|/room/${hotel.id}/all|}" >
+
+                    <h3><a th:href="@{|/room/${hotel.id}/all|(country_id=${country.id})}" >
                         Choose rooms in <span  th:text="${hotel.name}"></span></a>
                     </h3>
                 </div>
             </div>
-
-
-<!--        -->
-<!--        <table class="table table-striped" border="2">-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--                <th>No.</th>-->
-<!--                <th>Id</th>-->
-<!--                <th>Name</th>-->
-<!--                <th>Stars</th>-->
-<!--                <th > Go to rooms </th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--            <tr th:each="hotel, iStat: ${hotels}">-->
-<!--                <td scope="row" th:text="${iStat.index + 1}" />-->
-<!--                <td th:text="${hotel.id}"  />-->
-<!--                <td th:text="${hotel.name}"/>-->
-<!--                <td th:text="${hotel.stars}"/>-->
-<!--                <td >-->
-<!--                    <a th:href="@{|/room/${hotel.id}/all|}" > Go to rooms list</a>-->
-<!--                </td>-->
-
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--        </table>-->
 
     </div>
 </body>
