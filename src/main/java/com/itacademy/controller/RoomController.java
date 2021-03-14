@@ -36,6 +36,7 @@ public class RoomController {
                               @RequestParam Long country_id, Model model){
         List<Room> rooms=roomService.getAllRoomsInHotelById(hotel_id);
         List<List<Room>> roomGroups=new ArrayList<>();
+        System.out.println(rooms.size());
         if(rooms!=null&&!rooms.isEmpty()){
             if(rooms.size()<=3){
                 roomGroups.add(rooms);
@@ -47,9 +48,10 @@ public class RoomController {
                         roomGroups.add(rooms.subList(i,i+k));
                     }
                 }
+                roomGroups.add(rooms.subList(rooms.size() - 3, rooms.size() ));
             }
         }
-
+        System.out.println(roomGroups.size());
         model.addAttribute("hotel",hotelService.getById(hotel_id) );
         model.addAttribute("roomGroups", roomGroups);
         model.addAttribute("country_id",country_id);
