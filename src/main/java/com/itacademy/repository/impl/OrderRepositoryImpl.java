@@ -122,7 +122,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public List<Room> getBookedRoomsInHotel(Long hotelId, LocalDate fromDate, LocalDate toDate) {
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery("select o.room from Order o where (o.fromDate > :fromDate and o.fromDate < :toDate or  o.toDate > :fromDate and o.toDate < :toDate) and o.status = :status and o.room.id.hotel.id = :hotelId");
+        Query query = session.createQuery("select o.room from Order o where (o.fromDate <= :toDate and  o.toDate >= :fromDate) and o.status = :status and o.room.id.hotel.id = :hotelId");
         query.setParameter("fromDate", fromDate);
         query.setParameter("toDate", toDate);
         query.setParameter("hotelId", hotelId);
