@@ -1,5 +1,7 @@
 package com.itacademy.service.impl;
 
+import com.itacademy.exception.NotSuchElementException;
+import com.itacademy.exception.NullEntityReferenceException;
 import com.itacademy.model.Order;
 import com.itacademy.model.Room;
 import com.itacademy.model.RoomCompositeId;
@@ -30,6 +32,8 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room create(Room room) {
+        if(room==null)
+            throw new NullEntityReferenceException("room can not be null ");
         return roomRepository.save(room);
     }
 
@@ -40,12 +44,17 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room update(Room room) {
+        if(room==null)
+            throw new NullEntityReferenceException("room can not be null ");
         return roomRepository.update(room);
     }
 
     @Override
     public Room getById(RoomCompositeId id) {
-        return roomRepository.getById(id);
+        Room room=roomRepository.getById(id);
+        if(room==null)
+            throw new NotSuchElementException("room not found");
+        return room;
     }
 
     @Override
@@ -81,7 +90,10 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room getRoom(Long hotelId, Integer number) {
-        return getById(new RoomCompositeId(hotelService.getById(hotelId), number));
+        Room room=getById(new RoomCompositeId(hotelService.getById(hotelId), number));
+        if(room==null)
+            throw new NotSuchElementException("room with hotel_id: "+hotelId+" and number: "+number+" not found");
+        return room;
     }
 
 }
