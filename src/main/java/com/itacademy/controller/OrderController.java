@@ -123,29 +123,33 @@ public class OrderController {
 
 
 
-    @GetMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user")
+    @GetMapping("/make/{country_id}/hotels/{hotel_id}/room/{room_number}/user")
     public String addUser(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
-                          @PathVariable("from_date") String fromDate, @PathVariable("to_date") String toDate,
-                          Model model, @PathVariable Integer room_id, Authentication auth){
+                          @RequestParam("from_date") String fromDate, @RequestParam("to_date") String toDate,
+                          @PathVariable Integer room_number, Authentication auth,Model model){
         if(auth.getAuthorities().contains(Role.MANAGER)) {
             model.addAttribute("user", new User());
+            model.addAttribute("from_date",fromDate);
+            model.addAttribute("to_date",toDate);
             return "create-user-by-manager";
         }
         else{
-            return "redirect:/orders/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user/" + userService.getByEmail(auth.getName()).getId();
+            return "redirect:/orders/make/{country_id}/hotels/{hotel_id}/room/{room_number}/user/" + userService.getByEmail(auth.getName()).getId()
+                    +"?from_date="+fromDate+"&to_date="+toDate;
         }
     }
 
-    @PostMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user")
+    @PostMapping("/make/{country_id}/hotels/{hotel_id}/room/{room_number}/user")
     public String addUser(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
-                          @PathVariable("from_date") String fromDate, @PathVariable("to_date") String toDate,
+                          @RequestParam("from_date") String fromDate, @RequestParam("to_date") String toDate,
                           @Valid @ModelAttribute("user") User user, BindingResult bindingResult,
-                          Model model, @PathVariable Integer room_id){
+                          @PathVariable Integer room_number, Model model){
         if(bindingResult.hasErrors()){
             return "create-user-by-manager";
         }
         user = userService.createOrGetByEmail(user);
-        return "redirect:/orders/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user/" + user.getId();
+        return "redirect:/orders/make/{country_id}/hotels/{hotel_id}/room/{room_number}/user/"+user.getId() +
+                "?from_date="+fromDate+"&to_date="+toDate;
     }
 
 //    @GetMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user/{user_id}")

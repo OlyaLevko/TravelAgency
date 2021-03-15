@@ -54,7 +54,7 @@
 <div class="container">
     <h1>Please choose dates</h1>
 
-    <form th:action="@{|/orders/make/${country_id}/hotels/${hotel_id}/room/${room_number}/user/${@userServiceImpl.getByEmail(#authentication.getName()).getId()}|}" method="get">
+    <form th:action="@{|/orders/make/${country_id}/hotels/${hotel_id}/room/${room_number}/user|}" method="get">
 
     <div class='col-md-5'>
         <div class="form-group" >
