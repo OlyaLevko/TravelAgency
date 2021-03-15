@@ -23,7 +23,10 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Country getById(Long id) {
-        return countryRepository.getById(id);
+        Country country=countryRepository.getById(id);
+        if(country==null)
+            throw new NotSuchElementException("country with id: "+id+" not found");
+        return country;
     }
 
 

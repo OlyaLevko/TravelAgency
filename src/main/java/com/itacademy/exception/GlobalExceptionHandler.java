@@ -1,6 +1,7 @@
 package com.itacademy.exception;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
@@ -58,6 +59,13 @@ public class GlobalExceptionHandler{
     @ResponseStatus(HttpStatus.PRECONDITION_FAILED)
     public ModelAndView handle(RepositoryException e){
         ModelAndView modelAndView=new ModelAndView("412",HttpStatus.PRECONDITION_FAILED);
+        return modelAndView;
+    }
+
+    @ExceptionHandler
+    public ModelAndView handle(RuntimeException e){
+        ModelAndView modelAndView=new ModelAndView("error-page",HttpStatus.INTERNAL_SERVER_ERROR);
+        modelAndView.addObject("message","something went wrong ");
         return modelAndView;
     }
 
