@@ -34,9 +34,9 @@ public class RoomController {
         this.roomDtoBean = roomDtoBean;
     }
 
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/{hotel_id}/all")
-    public String getAllRooms(@PathVariable Long hotel_id,
-                              @RequestParam Long country_id, Model model){
+    public String getAllRooms(@PathVariable Long hotel_id, Model model){
         List<Room> rooms=roomService.getAllRoomsInHotelById(hotel_id);
         List<List<Room>> roomGroups=new ArrayList<>();
         if(rooms!=null&&!rooms.isEmpty()){
@@ -53,8 +53,7 @@ public class RoomController {
 
         model.addAttribute("hotel",hotelService.getById(hotel_id) );
         model.addAttribute("roomGroups", roomGroups);
-        model.addAttribute("country_id",country_id);
-        return "rooms-list";
+        return "rooms-list-manager";
     }
 
     @GetMapping("/{country_id}/{hotel_id}/all")

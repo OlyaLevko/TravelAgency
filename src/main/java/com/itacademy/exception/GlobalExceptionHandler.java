@@ -4,6 +4,7 @@ package com.itacademy.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -50,6 +51,13 @@ public class GlobalExceptionHandler{
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ModelAndView handle(AccessDeniedException e) {
         ModelAndView modelAndView = new ModelAndView("403", HttpStatus.FORBIDDEN);
+        return modelAndView;
+    }
+
+    @ExceptionHandler(RepositoryException.class)
+    @ResponseStatus(HttpStatus.PRECONDITION_FAILED)
+    public ModelAndView handle(RepositoryException e){
+        ModelAndView modelAndView=new ModelAndView("412",HttpStatus.PRECONDITION_FAILED);
         return modelAndView;
     }
 

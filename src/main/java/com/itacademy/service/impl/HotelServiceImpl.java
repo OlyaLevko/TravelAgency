@@ -1,5 +1,7 @@
 package com.itacademy.service.impl;
 
+import com.itacademy.exception.NotSuchElementException;
+import com.itacademy.exception.NullEntityReferenceException;
 import com.itacademy.model.Country;
 import com.itacademy.model.Hotel;
 import com.itacademy.repository.CountryRepository;
@@ -26,6 +28,8 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel create(Hotel hotel) {
+        if(hotel==null)
+            throw new NullEntityReferenceException("hotel can not be null ! ");
         return hotelRepository.save(hotel);
     }
 
@@ -36,22 +40,33 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Hotel update(Hotel hotel) {
+        if(hotel==null)
+            throw new NullEntityReferenceException("hotel can not be null ! ");
         return hotelRepository.update(hotel);
     }
 
     @Override
     public Hotel getById(Long id) {
-        return hotelRepository.getById(id);
+        Hotel hotel=hotelRepository.getById(id);
+        if(hotel==null)
+            throw new NotSuchElementException("hotel with id: "+id+" doesn't found");
+        return hotel;
     }
 
     @Override
     public List<Hotel> getAll() {
-        return hotelRepository.getAll();
+        List<Hotel> hotels=hotelRepository.getAll();
+        if(hotels==null || hotels.isEmpty())
+            throw new NotSuchElementException("hotels list is null or empty");
+        return hotels;
     }
 
 
     @Override
     public List<Hotel> getByCountry(Long id) {
-        return hotelRepository.getByCountry(id);
+        List<Hotel> hotels=hotelRepository.getByCountry(id);
+        if(hotels==null || hotels.isEmpty())
+            throw new NotSuchElementException("in country with id: "+ id+" hotels list is null or empty");
+        return hotels;
     }
 }
