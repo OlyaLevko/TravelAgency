@@ -68,17 +68,6 @@ public class OrderController {
         return "redirect:/orders/"+ userId + "/read";
     }
 
-   @GetMapping("/make")
-    public String chooseCountry(Model model){
-        model.addAttribute("countries", countryService.getAll());
-        return "choose-country";
-    }
-
-   @GetMapping("/make/{country_id}/hotels")
-   public String chooseHotel(Model model, @PathVariable("country_id") Long countryId){
-       model.addAttribute("hotels", hotelService.getByCountry(countryId));
-       return "choose-hotel";
-   }
 
 //   ========================================  room/{room_number}/
 
@@ -151,21 +140,6 @@ public class OrderController {
         return "redirect:/orders/make/{country_id}/hotels/{hotel_id}/room/{room_number}/user/"+user.getId() +
                 "?from_date="+fromDate+"&to_date="+toDate;
     }
-
-//    @GetMapping("/make/{country_id}/hotels/{hotel_id}/from/{from_date}/to/{to_date}/room/{room_id}/user/{user_id}")
-//    public String chooseRoom(@PathVariable("country_id") Long countryId, @PathVariable("hotel_id") Long hotelId,
-//                             @PathVariable("from_date") String fromDate, @PathVariable("to_date") String toDate,
-//                             Model model, @PathVariable("room_id") Integer room, @PathVariable("user_id") Long userId) {
-//        model.addAttribute("user", userService.getById(userId));
-//        model.addAttribute("country", countryService.getById(countryId));
-//        model.addAttribute("hotel", hotelService.getById(hotelId));
-//        model.addAttribute("from_date", fromDate);
-//        model.addAttribute("to_date", toDate);
-//        model.addAttribute("room", roomService.getById(new RoomCompositeId(hotelService.getById(hotelId), room)));
-//        model.addAttribute("days",  LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH))
-//                .until(  LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),ChronoUnit.DAYS));
-//        return "confirm-page";
-//    }
 
 //    =====================================
 
