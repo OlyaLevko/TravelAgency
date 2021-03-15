@@ -8,7 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -65,11 +71,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createOrGetByEmail(User user) {
+
         try {
-           user = userRepository.save(user);
-        }catch (UnsupportedOperationException e) {
             user = userRepository.getByEmail(user.getEmail());
+        }catch (NoResultException e){
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode("9999");
+            user.setPassword(hashedPassword);
+            user = userRepository.save(user);
         }
+
         return user;
     }
 

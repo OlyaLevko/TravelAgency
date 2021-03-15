@@ -16,6 +16,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 
 @Controller
@@ -136,6 +138,7 @@ public class OrderController {
         if(bindingResult.hasErrors()){
             return "create-user-by-manager";
         }
+
         user = userService.createOrGetByEmail(user);
         return "redirect:/orders/make/{country_id}/hotels/{hotel_id}/room/{room_number}/user/"+user.getId() +
                 "?from_date="+fromDate+"&to_date="+toDate;
