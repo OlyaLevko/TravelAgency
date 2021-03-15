@@ -80,16 +80,16 @@ public class OrderController {
        return "choose-hotel";
    }
 
-//   ========================================
+//   ========================================  room/{room_number}/
 
-    @GetMapping("/make/{country_id}/hotels/{hotel_id}/room/{room_number}/choose")
+    @GetMapping("/make/{country_id}/hotels/{hotel_id}/dates/choose")
     public String chooseBookingDateForRoom(@PathVariable("country_id") Long countryId,
                                        @PathVariable("hotel_id") Long hotelId,
-                                       @PathVariable("room_number") Integer room_number,
+//                                       @PathVariable("room_number") Integer room_number,
                                        Model model){
         model.addAttribute("country_id",countryId);
         model.addAttribute("hotel_id",hotelId);
-        model.addAttribute("room_number",room_number);
+//        model.addAttribute("room_number",room_number);
         return "choose-date";
     }
 
@@ -177,11 +177,10 @@ public class OrderController {
                                          Model model){
 
         Room checkedRoom=roomService.getById(new RoomCompositeId(hotelService.getById(hotelId),room_number));
+        LocalDate from=LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH));
+        LocalDate to=LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH));
 
-        if(roomService.checkIfRoomIsAvailable(hotelId,room_number,
-                LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH)),
-                LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH))))
-        {
+        if(roomService.checkIfRoomIsAvailable(hotelId,room_number, from,to)) {
 
             model.addAttribute("user", userService.getById(user_id));
             model.addAttribute("country", countryService.getById(countryId));
@@ -195,22 +194,24 @@ public class OrderController {
             return "confirm-page";
 
         }else {
-            List<Room> rooms=roomService.getAllRoomsInHotelById(hotelId);
+            List<Room> rooms=roomService.getAvailableRoomsInHotelById(hotelId,from,to);
             List<List<Room>> roomGroups=new ArrayList<>();
             if(rooms!=null&&!rooms.isEmpty()){
                 if(rooms.size()<=3){
                     roomGroups.add(rooms);
                 }else {
-                    for (int i = 0; i < rooms.size() - 3; i += 3) {
-                        roomGroups.add(rooms.subList(i, i + 3));
+                    int count=0;
+                    for ( count=0; count < rooms.size() - 3; count += 3) {
+                        roomGroups.add(rooms.subList(count, count + 3));
                     }
+                    roomGroups.add(rooms.subList(count,rooms.size()));
                 }
             }
 
             model.addAttribute("hotel",hotelService.getById(hotelId) );
             model.addAttribute("roomGroups", roomGroups);
             model.addAttribute("country_id",countryId);
-            model.addAttribute("message", "Sory, but room "+room_number+"is not available from: "+fromDate+", to: "+toDate);
+            model.addAttribute("message", "Sory, but room: "+room_number+" is not available from: "+fromDate+", to: "+toDate);
             return "rooms-list";
 //            return "redirect: /room/"+hotelId+"/all";
         }

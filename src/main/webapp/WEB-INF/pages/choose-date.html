@@ -52,9 +52,10 @@
 
 
 <div class="container">
-    <h1>Please choose dates</h1>
+    <h1>Please choose dates and you will see all available rooms for period</h1>
 
-    <form th:action="@{|/orders/make/${country_id}/hotels/${hotel_id}/room/${room_number}/user|}" method="get">
+<!--    <form th:action="@{|/orders/make/${country_id}/hotels/${hotel_id}/room/${room_number}/user|}" method="get">-->
+    <form th:action="@{|/room/${country_id}/${hotel_id}/all|}" method="get">
 
     <div class='col-md-5'>
         <div class="form-group" >
@@ -77,15 +78,15 @@
         </div>
     </div>
         <br>
-        <div th:if="${room_number==null}" class="col-sm-offset-2 col-sm-6" style="right: auto">
+        <div class="col-sm-offset-2 col-sm-6" style="right: auto">
                 <a th:href="@{|${#request.getHeader('referer')}|}" class="btn btn-info" role="button" aria-pressed="true">Previous</a>
             <input class="btn btn-info" type="submit" value="Confirm"/>
         </div>
 
-        <div th:unless="${room_number==null}" class="col-sm-offset-2 col-sm-6" style="right: auto">
-            <a th:href="@{|${#request.getHeader('referer')}|}" class="btn btn-info" role="button" aria-pressed="true">Previous</a>
-            <input class="btn btn-info" type="submit" value="Confirm"/>
-        </div>
+<!--        <div th:unless="${room_number==null}" class="col-sm-offset-2 col-sm-6" style="right: auto">-->
+<!--            <a th:href="@{|${#request.getHeader('referer')}|}" class="btn btn-info" role="button" aria-pressed="true">Previous</a>-->
+<!--            <input class="btn btn-info" type="submit" value="Confirm"/>-->
+<!--        </div>-->
     </form>
 </div>
 <script type="text/javascript">

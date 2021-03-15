@@ -30,8 +30,13 @@
                     <img th:src="${hotel.picture_url}" th:alt="${hotel.name}" width="300" height="200" class="img-rounded">
 
 
-                    <h3><a th:href="@{|/room/${hotel.id}/all|(country_id=${country.id})}" >
-                        Choose rooms in <span  th:text="${hotel.name}"></span></a>
+<!--                    <h3><a th:href="@{|/room/${hotel.id}/all|(country_id=${country.id})}" >-->
+<!--                        Choose rooms in <span  th:text="${hotel.name}"></span></a>-->
+<!--                    </h3>-->
+                    <h3>
+                        <a th:href="@{|/orders/make/${country.id}/hotels/${hotel.id}/dates/choose|}" >
+                            Go to make an order </span>
+                        </a>
                     </h3>
                 </div>
             </div>

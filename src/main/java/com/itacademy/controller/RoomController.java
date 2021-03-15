@@ -13,8 +13,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/room")
@@ -51,6 +54,37 @@ public class RoomController {
         model.addAttribute("hotel",hotelService.getById(hotel_id) );
         model.addAttribute("roomGroups", roomGroups);
         model.addAttribute("country_id",country_id);
+        return "rooms-list";
+    }
+
+    @GetMapping("/{country_id}/{hotel_id}/all")
+    public String getAvailableRoomsForPeriod(@PathVariable Long hotel_id,
+                                             @PathVariable Long country_id,
+                                             @RequestParam("from_date") String fromDate,
+                                             @RequestParam("to_date") String toDate, Model model){
+
+        LocalDate from=LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH));
+        LocalDate to=LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dMMMyyyy", Locale.ENGLISH));
+
+        List<Room> rooms=roomService.getAvailableRoomsInHotelById(hotel_id,from,to);
+        List<List<Room>> roomGroups=new ArrayList<>();
+        if(rooms!=null&&!rooms.isEmpty()){
+            if(rooms.size()<=3){
+                roomGroups.add(rooms);
+            }else {
+                int count=0;
+                for ( count=0; count < rooms.size() - 3; count += 3) {
+                    roomGroups.add(rooms.subList(count, count + 3));
+                }
+                roomGroups.add(rooms.subList(count,rooms.size()));
+            }
+        }
+
+        model.addAttribute("hotel",hotelService.getById(hotel_id) );
+        model.addAttribute("roomGroups", roomGroups);
+        model.addAttribute("country_id",country_id);
+        model.addAttribute("from_date",fromDate);
+        model.addAttribute("to_date",toDate);
         return "rooms-list";
     }
 

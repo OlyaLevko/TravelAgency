@@ -3,6 +3,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
       rel="stylesheet">
+<style>
+
+</style>
 <head>
     <meta charset="UTF-8">
     <title>Rooms list</title>
@@ -16,10 +19,10 @@
         </a>
     </button>
 
-    <div>
+    <div class="container">
         <div align="center">
             <h2>
-                List of rooms in the " <span th:text="${hotel.name}"/> "
+                Available rooms in the " <span th:text="${hotel.name}"/>" from: <span th:text="${from_date}"/> to: <span th:text="${to_date}"/>
             </h2>
         </div>
 
@@ -37,10 +40,15 @@
                     <h3 th:text="${room.type}" > </h3>
 
                     <h3>
-                        <a th:href="@{|/orders/make/${country_id}/hotels/${room.id.hotel.id}/room/${room.id.number}/choose|}" >
+                        <a th:href="@{|/orders/make/${country_id}/hotels/${hotel_id}/room/${room.id.number}/user|(from_date=${from_date},to_date=${to_date})}" >
                             Go to make an order </span>
                         </a>
                     </h3>
+<!--                    <h3>-->
+<!--                        <a th:href="@{|/orders/make/${country_id}/hotels/${room.id.hotel.id}/room/${room.id.number}/choose|}" >-->
+<!--                            Go to make an order </span>-->
+<!--                        </a>-->
+<!--                    </h3>-->
                     <button sec:authorize="hasAuthority('MANAGER')" class="btn btn-info">
                         <a th:href="@{|/room/${room.id.number}/update/${hotel.id}|}"> Update room </a></button>
                 </div>
