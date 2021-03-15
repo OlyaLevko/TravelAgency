@@ -26,7 +26,8 @@
 
                 <div class="col-sm-4" th:each="hotel:${hotels}">
 
-                    <h3>Stars: <span th:text="${hotel.stars}"></span></h3>
+<!--                    <h3>Stars: <span th:text="${hotel.stars}"></span></h3>-->
+                    <h3><span th:each="star: ${#numbers.sequence( 1, hotel.getStars())}" style="color: darkorange">&#9733</span></h3>
                     <img th:src="${hotel.picture_url}" th:alt="${hotel.name}" width="300" height="200" class="img-rounded">
 
 
